@@ -81,10 +81,13 @@
   .card .read { color: #b9e6ff; }
   .card .gold, .row button { flex: 1; }
   .row { margin-top: 10px; }
-  input {
+  #thoughts { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+  #thoughts button { border-radius: 16px; text-align: left; width: 100%; }
+  input, #thought {
     flex: 1; min-width: 0; border-radius: 999px; border: 1px solid #3d8ad0;
-    background: #ffffff; padding: 10px 14px; border: 1px solid #8ec8f2; color: #08243f;
+    background: #ffffff; padding: 10px 14px; color: #08243f;
   }
+  #thought { width: 100%; margin-top: 6px; }
   #toast {
     position: absolute; left: 12px; right: 12px; top: 12px; margin: 0; text-align: center;
     background: #145694; border: 1px solid #7ad0ff; color: #b9e6ff; font-weight: 700;
@@ -386,6 +389,78 @@
 			left: "#3e4a5c",
 			right: "#7d8ba0",
 			ink: "#10141c"
+		},
+		{
+			id: "journal",
+			name: "航天日誌",
+			en: "Flight Log",
+			hint: "航天員也讀書",
+			hintEn: "Astronauts read too",
+			shape: "cube",
+			top: "#ff8b7a",
+			left: "#8a3028",
+			right: "#d45a4a",
+			ink: "#2a100c"
+		},
+		{
+			id: "classic",
+			name: "文化書庫",
+			en: "Classics",
+			hint: "把故事留在艙裡",
+			hintEn: "Keep stories aboard",
+			shape: "rack",
+			top: "#d7c6ff",
+			left: "#4a3d88",
+			right: "#8d78c4",
+			ink: "#1a1430"
+		},
+		{
+			id: "beidou",
+			name: "北斗角",
+			en: "BeiDou",
+			hint: "讀懂導航才不迷路",
+			hintEn: "Read the sky to navigate",
+			shape: "dish",
+			top: "#7ef0ff",
+			left: "#0e5870",
+			right: "#f0b429",
+			ink: "#042028"
+		},
+		{
+			id: "fact",
+			name: "事實牆",
+			en: "Fact Wall",
+			hint: "先查證再相信",
+			hintEn: "Check it, then believe it",
+			shape: "screen",
+			top: "#d7fff4",
+			left: "#147868",
+			right: "#3ec8a4",
+			ink: "#042820"
+		},
+		{
+			id: "orbit",
+			name: "軌道哨",
+			en: "Orbit Watch",
+			hint: "認識軌道就是太空安全",
+			hintEn: "Know an orbit, know space",
+			shape: "scope",
+			top: "#ffe08a",
+			left: "#8a6230",
+			right: "#e0b24a",
+			ink: "#2a2008"
+		},
+		{
+			id: "pulse",
+			name: "地球脈搏",
+			en: "Earth Pulse",
+			hint: "生態也要被讀懂",
+			hintEn: "Read the living Earth",
+			shape: "orb",
+			top: "#7decc4",
+			left: "#0e6b58",
+			right: "#3dba78",
+			ink: "#042820"
 		}
 	];
 	const BLOCK_MAP = Object.fromEntries(BLOCKS.map((block) => [block.id, block]));
@@ -452,6 +527,15 @@
 			bodyEn: "The lending desk stands out. You care how a book reaches a person, not only where it sits.",
 			read: "延伸閱讀：從書車借一本書離開。圖書館的最後一步，永遠是借出去。",
 			readEn: "Try next: borrow one book from the cart before you leave. A library ends when a book goes out."
+		},
+		guard: {
+			id: "guard",
+			title: "守護閱讀型",
+			titleEn: "Reading that Guards",
+			body: "你放進了北斗、文化書庫、事實牆或軌道哨。閱讀不是裝飾。它幫人認識太空、留住故事，也先查證再相信。",
+			bodyEn: "You added navigation, classics, a fact wall, or an orbit watch. Reading is not decoration. It helps people know space, keep stories, and check a claim first.",
+			read: "延伸閱讀：航天員在軌生活、北斗與衛星、認識太空安全，以及如何辨認不實資訊。看完展覽，借一本帶回課室討論。",
+			readEn: "Try next: life on a space station, satellites and navigation, space security, and how to spot false information. Borrow one book to discuss in class."
 		}
 	};
 	function emptyCounts() {
@@ -478,7 +562,13 @@
 			bridge: 0,
 			meteor: 0,
 			dish: 0,
-			ring: 0
+			ring: 0,
+			journal: 0,
+			classic: 0,
+			beidou: 0,
+			fact: 0,
+			orbit: 0,
+			pulse: 0
 		};
 	}
 	function emptyGrid() {
@@ -503,12 +593,27 @@
 			green: counts.plant * 3 + counts.seed * 2,
 			sky: counts.window + counts.scope * 2 + counts.atlas * 3 + counts.gem * 2 + counts.dish * 2 + counts.meteor,
 			social: counts.table * 3 + counts.stage * 2 + counts.bridge * 2,
-			service: counts.desk * 3 + counts.gate * 2
+			service: counts.desk * 3 + counts.gate * 2,
+			guard: counts.beidou * 3 + counts.classic * 3 + counts.fact * 3 + counts.journal * 2 + counts.orbit * 3 + counts.pulse * 2
 		};
 		let best = "archive";
 		for (const id of Object.keys(scores)) if (scores[id] > scores[best]) best = id;
 		return TRAITS[best];
 	}
+	const THOUGHTS = [
+		{
+			zh: "讀書讓太空站不會只剩機器。",
+			en: "Books keep a station from becoming only machines."
+		},
+		{
+			zh: "不讀懂軌道，就不算認識太空安全。",
+			en: "Knowing an orbit is part of knowing space security."
+		},
+		{
+			zh: "書把地球的故事帶上了天。",
+			en: "Books carry Earth's stories into the sky."
+		}
+	];
 	const STORAGE_KEY = "space-library-designs-v2";
 	function asStack(cell) {
 		if (cell == null) return [];
@@ -699,7 +804,9 @@
 		gold.addColorStop(1, "rgba(230,184,74,0)");
 		ctx.fillStyle = gold;
 		ctx.fillRect(0, 0, w, h);
-		drawEarth(ctx, w, h);
+		drawEarth(ctx, w, h, now);
+		drawAurora(ctx, w, h, now);
+		drawDriftingBooks(ctx, w, h, now);
 		for (const star of STARS) {
 			const tw = .35 + .65 * (.5 + .5 * Math.sin(now * .001 * star.s + star.p));
 			ctx.globalAlpha = tw * .45;
@@ -715,7 +822,40 @@
 		}
 		ctx.globalAlpha = 1;
 	}
-	function drawEarth(ctx, w, h) {
+	function drawAurora(ctx, w, h, now) {
+		ctx.save();
+		for (let band = 0; band < 3; band++) {
+			ctx.beginPath();
+			const y0 = h * (.16 + band * .07);
+			ctx.moveTo(0, y0);
+			for (let x = 0; x <= w; x += 20) ctx.lineTo(x, y0 + Math.sin(x * .012 + now * 7e-4 + band) * 16);
+			ctx.lineTo(w, y0 + 40);
+			ctx.lineTo(0, y0 + 40);
+			ctx.closePath();
+			ctx.fillStyle = band === 1 ? "rgba(125,236,196,0.22)" : "rgba(185,230,255,0.18)";
+			ctx.fill();
+		}
+		ctx.restore();
+	}
+	function drawDriftingBooks(ctx, w, h, now) {
+		ctx.save();
+		for (let i = 0; i < 4; i++) {
+			const x = (now * .03 + i * 220) % (w + 80) - 40;
+			const y = h * (.2 + i % 3 * .16) + Math.sin(now * .0012 + i) * 12;
+			ctx.save();
+			ctx.translate(x, y);
+			ctx.rotate(Math.sin(now * .001 + i) * .35);
+			ctx.globalAlpha = .7;
+			ctx.fillStyle = i % 2 === 0 ? "#f0b429" : "#f7fbff";
+			ctx.fillRect(-8, -10, 16, 20);
+			ctx.fillStyle = "#0e4a86";
+			ctx.fillRect(-5, -6, 10, 2);
+			ctx.fillRect(-5, -2, 7, 2);
+			ctx.restore();
+		}
+		ctx.restore();
+	}
+	function drawEarth(ctx, w, h, now) {
 		const x = w * .84;
 		const y = h * .18;
 		const r = Math.min(w, h) * .18;
@@ -743,6 +883,25 @@
 		ctx.fillStyle = "#1a4f86";
 		ctx.fill();
 		ctx.restore();
+		const pulse = 6 + (Math.sin(now * .003) + 1) * 4;
+		ctx.beginPath();
+		ctx.arc(x, y, r + pulse, 0, Math.PI * 2);
+		ctx.strokeStyle = "rgba(125,236,196,0.55)";
+		ctx.lineWidth = 2;
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.ellipse(x, y, r + 18, r * .42, -.3, 0, Math.PI * 2);
+		ctx.strokeStyle = "rgba(185,230,255,0.7)";
+		ctx.stroke();
+		const ang = now * 8e-4;
+		ctx.fillStyle = "#fff6c8";
+		ctx.shadowColor = "#fff6c8";
+		ctx.shadowBlur = 12;
+		ctx.beginPath();
+		ctx.arc(x + Math.cos(ang) * (r + 18), y + Math.sin(ang) * r * .42, 3.5, 0, Math.PI * 2);
+		ctx.fill();
+		ctx.shadowBlur = 0;
+		ctx.shadowColor = "transparent";
 	}
 	function trace(ctx, pts) {
 		ctx.beginPath();
@@ -917,6 +1076,11 @@
 				ctx.lineTo(-1, 2);
 				ctx.lineTo(5, -3);
 				ctx.stroke();
+				break;
+			case "journal":
+				ctx.strokeRect(-7, -8, 14, 16);
+				ctx.fillRect(-4, -4, 8, 2);
+				ctx.fillRect(-4, 0, 6, 2);
 		}
 		ctx.restore();
 	}
@@ -1409,6 +1573,7 @@
 	let eraseBtn = false;
 	let muted = false;
 	let nameValue = "";
+	let thoughtValue = "";
 	let designs = [];
 	const size = {
 		w: 800,
@@ -1435,7 +1600,7 @@
     <div class="card">
       <p class="kicker">看完展覽再建造 See the display first</p>
       <h2>你的太空圖書館<span>Your Space Library</span></h2>
-      <p>艙室形狀都不一樣。點甲板放下，再點同一格可以疊高。至少放一個書架。<span class="en">Shapes differ. Tap the deck, tap again to stack. Place at least one shelf.</span></p>
+      <p>艙室形狀都不一樣。新的北斗角、文化書庫、事實牆和地球脈搏，是用來想：閱讀怎樣幫人認識太空、留住故事、看清資訊。<span class="en">New modules ask how reading helps us know space, keep stories, and check information.</span></p>
       <p>完成後會生成詞雲，大家最想要的會變得最大。<span class="en">A word cloud appears when you finish. Favorites grow largest.</span></p>
       <button id="start" class="gold" type="button">開始建造<span>Start building</span></button>
     </div>
@@ -1450,6 +1615,9 @@
       <div id="done-cloud" class="cloud"></div>
       <p id="trait-read" class="read"></p>
       <p id="trait-read-en" class="en"></p>
+      <p class="kicker">閱讀和太空有什麼關係？<span>How are reading and space connected?</span></p>
+      <div id="thoughts"></div>
+      <input id="thought" maxlength="42" placeholder="也可以寫自己的一句 Your own line" />
       <div class="row">
         <input id="nick" maxlength="8" placeholder="暱稱 Nickname" />
         <button id="save" class="gold" type="button">留下作品<span>Save</span></button>
@@ -1690,6 +1858,22 @@
 	document.getElementById("nick")?.addEventListener("input", (event) => {
 		nameValue = event.target.value;
 	});
+	document.getElementById("thought")?.addEventListener("input", (event) => {
+		thoughtValue = event.target.value;
+	});
+	const thoughts = document.getElementById("thoughts");
+	if (thoughts) {
+		thoughts.innerHTML = THOUGHTS.map((item, index) => `<button type="button" data-thought="${index}">${item.zh}<span>${item.en}</span></button>`).join("");
+		thoughts.addEventListener("click", (event) => {
+			const button = event.target.closest("button");
+			if (!button?.dataset.thought) return;
+			const item = THOUGHTS[Number(button.dataset.thought)];
+			if (!item) return;
+			thoughtValue = item.zh;
+			const input = document.getElementById("thought");
+			if (input) input.value = item.zh;
+		});
+	}
 	document.getElementById("save")?.addEventListener("click", () => {
 		const trait = analyze(countCells(cellsRef.current));
 		designs = [{
@@ -1697,6 +1881,7 @@
 			name: nameValue.trim().slice(0, 8) || "未命名",
 			cells: cloneGrid(cellsRef.current),
 			trait: trait.title,
+			thought: thoughtValue.trim().slice(0, 42),
 			at: Date.now()
 		}, ...designs].slice(0, 12);
 		storeDesigns(designs);
