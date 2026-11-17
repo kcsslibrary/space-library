@@ -238,8 +238,8 @@
 			id: "plant",
 			name: "綠樹",
 			en: "Tree",
-			hint: "樹下讀書",
-			hintEn: "Read under a tree",
+			hint: "天宮種過水稻",
+			hintEn: "Tiangong grew rice",
 			shape: "tree",
 			top: "#8ee0b0",
 			left: "#1d6b48",
@@ -382,8 +382,8 @@
 			id: "gate",
 			name: "氣閘拱門",
 			en: "Airlock",
-			hint: "進出的門",
-			hintEn: "The way in",
+			hint: "問天的出艙口",
+			hintEn: "Wentian's hatch",
 			shape: "arch",
 			top: "#d7dee8",
 			left: "#3e4a5c",
@@ -392,10 +392,10 @@
 		},
 		{
 			id: "journal",
-			name: "航天日誌",
-			en: "Flight Log",
-			hint: "航天員也讀書",
-			hintEn: "Astronauts read too",
+			name: "天和書角",
+			en: "Tianhe Nook",
+			hint: "核心艙是生活的家",
+			hintEn: "The core module is home",
 			shape: "cube",
 			top: "#ff8b7a",
 			left: "#8a3028",
@@ -404,10 +404,10 @@
 		},
 		{
 			id: "classic",
-			name: "文化書庫",
-			en: "Classics",
-			hint: "把故事留在艙裡",
-			hintEn: "Keep stories aboard",
+			name: "訓練手冊",
+			en: "Training",
+			hint: "八項訓練，先讀再做",
+			hintEn: "Eight kinds of training",
 			shape: "rack",
 			top: "#d7c6ff",
 			left: "#4a3d88",
@@ -416,10 +416,10 @@
 		},
 		{
 			id: "beidou",
-			name: "北斗角",
-			en: "BeiDou",
-			hint: "讀懂導航才不迷路",
-			hintEn: "Read the sky to navigate",
+			name: "天韻實驗",
+			en: "MUSICO",
+			hint: "香港的太空之眼",
+			hintEn: "Hong Kong's space eye",
 			shape: "dish",
 			top: "#7ef0ff",
 			left: "#0e5870",
@@ -428,10 +428,10 @@
 		},
 		{
 			id: "fact",
-			name: "事實牆",
-			en: "Fact Wall",
-			hint: "先查證再相信",
-			hintEn: "Check it, then believe it",
+			name: "飛天航天服",
+			en: "Feitian",
+			hint: "出艙前讀懂每一層",
+			hintEn: "Read the suit before a walk",
 			shape: "screen",
 			top: "#d7fff4",
 			left: "#147868",
@@ -440,10 +440,10 @@
 		},
 		{
 			id: "orbit",
-			name: "軌道哨",
-			en: "Orbit Watch",
-			hint: "認識軌道就是太空安全",
-			hintEn: "Know an orbit, know space",
+			name: "北京時間",
+			en: "Beijing Time",
+			hint: "十六次日出，一個時鐘",
+			hintEn: "Sixteen sunrises, one clock",
 			shape: "scope",
 			top: "#ffe08a",
 			left: "#8a6230",
@@ -452,10 +452,10 @@
 		},
 		{
 			id: "pulse",
-			name: "地球脈搏",
-			en: "Earth Pulse",
-			hint: "生態也要被讀懂",
-			hintEn: "Read the living Earth",
+			name: "水稻水族",
+			en: "Life Lab",
+			hint: "水稻、斑馬魚、小鼠",
+			hintEn: "Rice, fish and mice",
 			shape: "orb",
 			top: "#7decc4",
 			left: "#0e6b58",
@@ -530,12 +530,12 @@
 		},
 		guard: {
 			id: "guard",
-			title: "守護閱讀型",
-			titleEn: "Reading that Guards",
-			body: "你放進了北斗、文化書庫、事實牆或軌道哨。閱讀不是裝飾。它幫人認識太空、留住故事，也先查證再相信。",
-			bodyEn: "You added navigation, classics, a fact wall, or an orbit watch. Reading is not decoration. It helps people know space, keep stories, and check a claim first.",
-			read: "延伸閱讀：航天員在軌生活、北斗與衛星、認識太空安全，以及如何辨認不實資訊。看完展覽，借一本帶回課室討論。",
-			readEn: "Try next: life on a space station, satellites and navigation, space security, and how to spot false information. Borrow one book to discuss in class."
+			title: "天宮生活型",
+			titleEn: "Life on Tiangong",
+			body: "你放進了展板上的東西：天和核心艙、訓練、天韻相機、飛天航天服、北京時間，或水稻和水族箱。圖書館記住的是天宮怎麼生活。",
+			bodyEn: "You kept pieces from the display: Tianhe, training, MUSICO, the Feitian suit, Beijing time, or the rice and aquarium. The library remembers how Tiangong is lived in.",
+			read: "看完展板，借一本航天員故事或太空實驗的書。下一組可以讀你留下的那一句。",
+			readEn: "After the display, borrow a book about astronauts or a space experiment. The next group can read the line you left."
 		}
 	};
 	function emptyCounts() {
@@ -602,16 +602,16 @@
 	}
 	const THOUGHTS = [
 		{
-			zh: "讀書讓太空站不會只剩機器。",
-			en: "Books keep a station from becoming only machines."
+			zh: "天和核心艙是家，家裡應該有書。",
+			en: "Tianhe is home. A home should have books."
 		},
 		{
-			zh: "不讀懂軌道，就不算認識太空安全。",
-			en: "Knowing an orbit is part of knowing space security."
+			zh: "出艙前要先讀懂飛天航天服。",
+			en: "Read the Feitian suit before a spacewalk."
 		},
 		{
-			zh: "書把地球的故事帶上了天。",
-			en: "Books carry Earth's stories into the sky."
+			zh: "水稻和斑馬魚的筆記，也該留在館裡。",
+			en: "Notes on rice and zebrafish belong in the library too."
 		}
 	];
 	const STORAGE_KEY = "space-library-designs-v2";
@@ -1587,7 +1587,7 @@
   <p class="banner">圖書館 × 公民與社會發展 × 國民及公民教育<span>Library × Citizenship and Social Development × National and Civic Education</span></p>
   <div class="bar">
   <div>
-    <p class="kicker">太空情報站 Space Intel</p>
+    <p class="kicker">航向太空 A Voyage to Space</p>
     <h1>太空圖書館建造師<span>Space Library Builder</span></h1>
   </div>
   <button id="mute" class="icon" type="button" aria-label="關閉音效">音</button>
@@ -1600,7 +1600,7 @@
     <div class="card">
       <p class="kicker">看完展覽再建造 See the display first</p>
       <h2>你的太空圖書館<span>Your Space Library</span></h2>
-      <p>艙室形狀都不一樣。新的北斗角、文化書庫、事實牆和地球脈搏，是用來想：閱讀怎樣幫人認識太空、留住故事、看清資訊。<span class="en">New modules ask how reading helps us know space, keep stories, and check information.</span></p>
+      <p>先看「航向太空」展板。再把記得的放進來：天和核心艙、訓練手冊、天韻相機、飛天航天服、北京時間、水稻和水族箱。<span class="en">See the display first, then place what you remember.</span></p>
       <p>完成後會生成詞雲，大家最想要的會變得最大。<span class="en">A word cloud appears when you finish. Favorites grow largest.</span></p>
       <button id="start" class="gold" type="button">開始建造<span>Start building</span></button>
     </div>
@@ -1615,7 +1615,7 @@
       <div id="done-cloud" class="cloud"></div>
       <p id="trait-read" class="read"></p>
       <p id="trait-read-en" class="en"></p>
-      <p class="kicker">閱讀和太空有什麼關係？<span>How are reading and space connected?</span></p>
+      <p class="kicker">看完展板，留下什麼？<span>After the display, what stays?</span></p>
       <div id="thoughts"></div>
       <input id="thought" maxlength="42" placeholder="也可以寫自己的一句 Your own line" />
       <div class="row">
