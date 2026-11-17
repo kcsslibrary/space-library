@@ -113,448 +113,148 @@
 <div id="app"></div>
 <script>
 (function() {
-	const BLOCK_MAP = Object.fromEntries([
-		{
-			id: "shelf",
-			name: "圖書館",
-			en: "Library",
-			hint: "封閉環境也要讀書",
-			hintEn: "Reading in a closed cabin",
-			shape: "cube",
-			top: "#e2b15a",
-			left: "#8a5e28",
-			right: "#c48a3c",
-			ink: "#2a1d08"
-		},
-		{
-			id: "comic",
-			name: "漫畫架",
-			en: "Comics",
-			hint: "斜放的故事",
-			hintEn: "Picture stories",
-			shape: "rack",
-			top: "#f0a36a",
-			left: "#8a4524",
-			right: "#c46e3c",
-			ink: "#2a1408"
-		},
-		{
-			id: "ring",
-			name: "書環",
-			en: "Book Ring",
-			hint: "書本圍成一圈",
-			hintEn: "Books in a ring",
-			shape: "ring",
-			top: "#f2d48a",
-			left: "#8a6a2e",
-			right: "#d4ae58",
-			ink: "#2a1d05"
-		},
-		{
-			id: "seat",
-			name: "閱讀座",
-			en: "Seat",
-			hint: "一張椅子",
-			hintEn: "A reading chair",
-			shape: "chair",
-			top: "#f0d7b4",
-			left: "#a07c58",
-			right: "#d2b08a",
-			ink: "#3a2a18"
-		},
-		{
-			id: "bunk",
-			name: "運動角",
-			en: "Gym",
-			hint: "失重會讓肌肉萎縮",
-			hintEn: "Weightlessness wastes muscle",
-			shape: "hammock",
-			top: "#f3b7c8",
-			left: "#8a4d62",
-			right: "#c47a94",
-			ink: "#2a1018"
-		},
-		{
-			id: "screen",
-			name: "電子書牆",
-			en: "E-wall",
-			hint: "直立螢幕",
-			hintEn: "A tall screen",
-			shape: "screen",
-			top: "#9fd6ff",
-			left: "#245e96",
-			right: "#4e93c9",
-			ink: "#082038"
-		},
-		{
-			id: "holo",
-			name: "全息書",
-			en: "Holo Book",
-			hint: "水晶裡的書",
-			hintEn: "A book in crystal",
-			shape: "crystal",
-			top: "#b7f6ff",
-			left: "#1d6d8a",
-			right: "#3aa8c4",
-			ink: "#042028"
-		},
-		{
-			id: "gem",
-			name: "星晶艙",
-			en: "Crystal",
-			hint: "鑽進水晶讀書",
-			hintEn: "Read inside a gem",
-			shape: "crystal",
-			top: "#d7c6ff",
-			left: "#5a4a88",
-			right: "#8d78c4",
-			ink: "#1a1430"
-		},
-		{
-			id: "audio",
-			name: "有聲柱",
-			en: "Audio",
-			hint: "圓柱聽書",
-			hintEn: "Listen to books",
-			shape: "pillar",
-			top: "#7ef0d2",
-			left: "#14685a",
-			right: "#2eaa90",
-			ink: "#062820"
-		},
-		{
-			id: "lantern",
-			name: "漂浮燈",
-			en: "Lantern",
-			hint: "夜讀的光",
-			hintEn: "Light for night reading",
-			shape: "lantern",
-			top: "#ffe08a",
-			left: "#a07a28",
-			right: "#e0b24a",
-			ink: "#2a2008"
-		},
-		{
-			id: "plant",
-			name: "溫室",
-			en: "Greenhouse",
-			hint: "太空裡要自己種糧",
-			hintEn: "Grow food in space",
-			shape: "tree",
-			top: "#8ee0b0",
-			left: "#1d6b48",
-			right: "#3aa974",
-			ink: "#08321c"
-		},
-		{
-			id: "seed",
-			name: "溫室罩",
-			en: "Greenhouse",
-			hint: "半圓種子庫",
-			hintEn: "A seed dome",
-			shape: "dome",
-			top: "#c6e98a",
-			left: "#4e7a28",
-			right: "#86b048",
-			ink: "#142808"
-		},
-		{
-			id: "window",
-			name: "觀星拱門",
-			en: "Star Arch",
-			hint: "拱形窗",
-			hintEn: "An arched window",
-			shape: "arch",
-			top: "#e7f1ff",
-			left: "#5d7598",
-			right: "#9bb4d6",
-			ink: "#1a2740"
-		},
-		{
-			id: "scope",
-			name: "望遠鏡",
-			en: "Telescope",
-			hint: "斜管看星星",
-			hintEn: "Aim at the stars",
-			shape: "scope",
-			top: "#d5deea",
-			left: "#4c596c",
-			right: "#8b9aaf",
-			ink: "#121820"
-		},
-		{
-			id: "dish",
-			name: "通訊艙",
-			en: "Comms",
-			hint: "和地面保持聯絡",
-			hintEn: "Stay in touch with Earth",
-			shape: "dish",
-			top: "#c5d4ea",
-			left: "#3e5270",
-			right: "#7f97b8",
-			ink: "#101820"
-		},
-		{
-			id: "table",
-			name: "共讀桌",
-			en: "Table",
-			hint: "扁平台",
-			hintEn: "A shared table",
-			shape: "slab",
-			top: "#f0b08a",
-			left: "#a45a3c",
-			right: "#d48462",
-			ink: "#3a1c10"
-		},
-		{
-			id: "stage",
-			name: "故事台",
-			en: "Stage",
-			hint: "小舞台",
-			hintEn: "A story stage",
-			shape: "stage",
-			top: "#ffe08a",
-			left: "#a07a28",
-			right: "#e0b24a",
-			ink: "#2a2008"
-		},
-		{
-			id: "bridge",
-			name: "書橋",
-			en: "Bridge",
-			hint: "拱橋連兩區",
-			hintEn: "A bridge of books",
-			shape: "bridge",
-			top: "#e2b15a",
-			left: "#8a5e28",
-			right: "#c48a3c",
-			ink: "#2a1d08"
-		},
-		{
-			id: "quiet",
-			name: "靜音圓艙",
-			en: "Quiet Pod",
-			hint: "圓頂深讀",
-			hintEn: "A quiet dome",
-			shape: "dome",
-			top: "#c9d0ee",
-			left: "#3c4674",
-			right: "#6d78aa",
-			ink: "#161a30"
-		},
-		{
-			id: "atlas",
-			name: "星球儀",
-			en: "Globe",
-			hint: "一顆星球",
-			hintEn: "A planet to study",
-			shape: "orb",
-			top: "#8fd0ff",
-			left: "#1d6b8a",
-			right: "#3d9a78",
-			ink: "#082028"
-		},
-		{
-			id: "meteor",
-			name: "隕石几",
-			en: "Meteor",
-			hint: "坐在隕石上",
-			hintEn: "Sit on a meteor",
-			shape: "meteor",
-			top: "#b7a08a",
-			left: "#5c4636",
-			right: "#8a6a52",
-			ink: "#241810"
-		},
-		{
-			id: "desk",
-			name: "醫療角",
-			en: "Medical",
-			hint: "輻射和身體都要顧",
-			hintEn: "Watch radiation and the body",
-			shape: "cube",
-			top: "#f2d48a",
-			left: "#8a6a2e",
-			right: "#d4ae58",
-			ink: "#2a1d05"
-		},
+	//#region src/game/walk.ts
+	const BAYS = [
 		{
 			id: "gate",
-			name: "氣閘拱門",
-			en: "Airlock",
-			hint: "問天的出艙口",
-			hintEn: "Wentian's hatch",
-			shape: "arch",
-			top: "#d7dee8",
-			left: "#3e4a5c",
-			right: "#7d8ba0",
-			ink: "#10141c"
+			zone: "節點艙",
+			zoneEn: "Node",
+			name: "對接口",
+			en: "Docking hub",
+			hint: "天和前端。問天、夢天接在兩側，神舟從這裡進來。",
+			hintEn: "Wentian and Mengtian dock on the sides. Shenzhou arrives here.",
+			book: "圖書：天宮結構圖解。三艙呈 T 形。",
+			bookEn: "Book: a Tiangong diagram. Three modules make a T.",
+			color: "#d7dee8",
+			z: 4.2,
+			side: 1
 		},
 		{
 			id: "journal",
-			name: "生活艙",
-			en: "Habitat",
-			hint: "睡覺、吃飯、調適心情",
-			hintEn: "Sleep, eat, stay steady",
-			shape: "cube",
-			top: "#ff8b7a",
-			left: "#8a3028",
-			right: "#d45a4a",
-			ink: "#2a100c"
+			zone: "天和核心艙",
+			zoneEn: "Tianhe",
+			name: "睡眠區",
+			en: "Sleep",
+			hint: "三個獨立睡眠區，睡袋固定，可以躺着睡。",
+			hintEn: "Three sleep stations. The bag holds you, so you can lie down.",
+			book: "圖書：航天員傳記，寫艙裡的一天。",
+			bookEn: "Book: an astronaut biography, one day aboard.",
+			color: "#7ea2d6",
+			z: 9,
+			side: -1
 		},
 		{
-			id: "classic",
-			name: "艙內日記",
-			en: "Diary",
-			hint: "把天上的一天寫下",
-			hintEn: "Write one day in orbit",
-			shape: "rack",
-			top: "#d7c6ff",
-			left: "#4a3d88",
-			right: "#8d78c4",
-			ink: "#1a1430"
+			id: "bunk",
+			zone: "天和核心艙",
+			zoneEn: "Tianhe",
+			name: "健身單車",
+			en: "Exercise",
+			hint: "問天有單車和跑步機，夢天有抗阻劃船機。每天約兩小時。",
+			hintEn: "A bike and treadmill in Wentian, a rower in Mengtian.",
+			book: "圖書：《失重與人體》。肌肉在天上會變少。",
+			bookEn: "Book: the body in weightlessness.",
+			color: "#2f6db5",
+			z: 13.2,
+			side: 1
+		},
+		{
+			id: "dish",
+			zone: "天和核心艙",
+			zoneEn: "Tianhe",
+			name: "通訊台",
+			en: "Comms",
+			hint: "生活段裡和地面說話、看操作畫面。",
+			hintEn: "Talk to the ground from the living section.",
+			book: "圖書：地面控制中心的任務故事。",
+			bookEn: "Book: stories from mission control.",
+			color: "#c9d6ea",
+			z: 17.2,
+			side: -1
 		},
 		{
 			id: "beidou",
-			name: "實驗艙",
-			en: "Lab",
-			hint: "天宮的問天和夢天",
-			hintEn: "Wentian and Mengtian",
-			shape: "dish",
-			top: "#7ef0ff",
-			left: "#0e5870",
-			right: "#f0b429",
-			ink: "#042028"
+			zone: "問天實驗艙",
+			zoneEn: "Wentian",
+			name: "生命實驗櫃",
+			en: "Life lab",
+			hint: "問天做生命科學。夢天做流體、材料和燃燒。",
+			hintEn: "Wentian studies life. Mengtian studies materials and fluids.",
+			book: "圖書：太空實驗科普。櫃門後面就是實驗。",
+			bookEn: "Book: space-lab science. The rack hides an experiment.",
+			color: "#f0b429",
+			z: 22.4,
+			side: 1
 		},
 		{
-			id: "fact",
-			name: "金色面窗",
-			en: "Gold Visor",
-			hint: "窗邊可以讀書",
-			hintEn: "Read beside the window",
-			shape: "screen",
-			top: "#ffe08a",
-			left: "#8a6230",
-			right: "#e6b84a",
-			ink: "#2a2008"
-		},
-		{
-			id: "orbit",
-			name: "日出燈",
-			en: "Sunrise",
-			hint: "一天十六次日出",
-			hintEn: "Sixteen sunrises a day",
-			shape: "lantern",
-			top: "#fff1b8",
-			left: "#a07a28",
-			right: "#f0b429",
-			ink: "#2a2008"
+			id: "plant",
+			zone: "問天實驗艙",
+			zoneEn: "Wentian",
+			name: "植物培養",
+			en: "Plants",
+			hint: "天宮種過水稻。失重裡根不會向下。",
+			hintEn: "Tiangong grew rice. Roots lose up and down.",
+			book: "圖書：《火星救援》The Martian，自己種糧食。",
+			bookEn: "Book: The Martian, growing food.",
+			color: "#3dba78",
+			z: 26.6,
+			side: -1
 		},
 		{
 			id: "pulse",
-			name: "循環艙",
-			en: "Recycle",
-			hint: "水和廢物要循環",
-			hintEn: "Cycle water and waste",
-			shape: "orb",
-			top: "#7decc4",
-			left: "#0e6b58",
-			right: "#3dba78",
-			ink: "#042820"
+			zone: "問天實驗艙",
+			zoneEn: "Wentian",
+			name: "再生生保",
+			en: "Recycling",
+			hint: "水和空氣要循環再用。問天帶了這套系統。",
+			hintEn: "Water and air are recycled. Wentian carries that system.",
+			book: "圖書：《火星救援》的水，《太空移民》的封閉系統。",
+			bookEn: "Book: water in The Martian, closed systems in settlement books.",
+			color: "#7decc4",
+			z: 31,
+			side: 1
+		},
+		{
+			id: "shelf",
+			zone: "閱讀角",
+			zoneEn: "Reading",
+			name: "如果有圖書館",
+			en: "A library",
+			hint: "真艙沒有圖書館。封閉的日子裡，書可以調適心情。",
+			hintEn: "The real station has no library. Books steady a closed life.",
+			book: "圖書：你想帶上太空的那一本。",
+			bookEn: "Book: the one you would carry aboard.",
+			color: "#e2b15a",
+			z: 35.4,
+			side: -1
 		}
-	].map((block) => [block.id, block]));
-	const BRING_IDS = [
-		"journal",
-		"beidou",
-		"plant",
-		"dish",
-		"desk",
-		"bunk",
-		"pulse",
-		"shelf"
 	];
-	const READS = {
-		journal: {
-			book: "書：航天員傳記，寫生活艙裡的一天",
-			bookEn: "Book: an astronaut biography, one day in the habitat"
-		},
-		beidou: {
-			book: "書：太空實驗科普。天宮真的有實驗艙",
-			bookEn: "Book: space-lab science. Tiangong really has labs"
-		},
-		plant: {
-			book: "書：《火星救援》The Martian，自己種糧食",
-			bookEn: "Book: The Martian, growing food"
-		},
-		dish: {
-			book: "書：地面控制中心的任務故事",
-			bookEn: "Book: stories from mission control"
-		},
-		desk: {
-			book: "書：太空醫學，輻射和身體",
-			bookEn: "Book: space medicine, radiation and the body"
-		},
-		bunk: {
-			book: "書：失重與人體。天宮每天運動兩小時",
-			bookEn: "Book: the body in weightlessness. Two hours of exercise"
-		},
-		pulse: {
-			book: "書：《火星救援》的水循環，《太空移民》的封閉系統",
-			bookEn: "Book: water in The Martian, closed systems in space-settlement books"
-		},
-		shelf: {
-			book: "如果太空站有圖書館：書幫人撐過封閉的日子",
-			bookEn: "If the station had a library: books steady a closed life"
-		}
-	};
-	//#endregion
-	//#region src/game/walk.ts
-	const BAYS = BRING_IDS.map((id, index) => {
-		const block = BLOCK_MAP[id];
-		const read = READS[id];
-		return {
-			id,
-			name: block.name,
-			en: block.en,
-			hint: block.hint,
-			hintEn: block.hintEn,
-			book: read?.book ?? "",
-			bookEn: read?.bookEn ?? "",
-			color: block.top,
-			z: 5 + index * 4.4,
-			side: index % 2 === 0 ? 1 : -1
-		};
-	});
-	const END_Z = BAYS[BAYS.length - 1].z + 6.5;
-	const WALL = 1.72;
-	const FLOOR = 1.2;
-	const CEIL = -1.28;
-	const FOCAL = 560;
+	const WALL = 1.28;
+	const FLOOR = 1.05;
+	const CEIL = -1.02;
 	function project(x, y, z, cam) {
 		const dz0 = z - cam.z;
 		const cos = Math.cos(cam.yaw);
 		const sin = Math.sin(cam.yaw);
 		const dx = x * cos - dz0 * sin;
 		const dz = x * sin + dz0 * cos;
-		if (dz < .22) return null;
-		const s = FOCAL / dz;
+		if (dz < .2) return null;
+		const s = 620 / dz;
 		return {
 			x: cam.w / 2 + dx * s,
-			y: cam.h * .46 + y * s,
+			y: cam.h * .48 + y * s,
 			dz
 		};
 	}
-	function fog(hex, dz, glow = 0) {
+	function fog(hex, dz) {
 		const n = Number.parseInt(hex.slice(1), 16);
 		const r = n >> 16 & 255;
 		const g = n >> 8 & 255;
 		const b = n & 255;
-		const t = Math.max(0, Math.min(.86, (dz - 3) / 26));
-		const lift = glow;
-		const mix = (c, fogC) => Math.max(0, Math.min(255, Math.round(c * (1 - t) + fogC * t + lift)));
-		return `rgb(${mix(r, 6)},${mix(g, 22)},${mix(b, 48)})`;
+		const t = Math.max(0, Math.min(.72, (dz - 6) / 28));
+		const mix = (c, fogC) => Math.max(0, Math.min(255, Math.round(c * (1 - t) + fogC * t)));
+		return `rgb(${mix(r, 214)},${mix(g, 224)},${mix(b, 234)})`;
 	}
-	function quad(ctx, cam, pts, color, glow = 0) {
+	function quad(ctx, cam, pts, color) {
 		const proj = pts.map(([x, y, z]) => project(x, y, z, cam));
 		if (proj.some((p) => !p)) return null;
 		const ok = proj;
@@ -566,14 +266,14 @@
 				ctx.moveTo(ok[0].x, ok[0].y);
 				for (let i = 1; i < ok.length; i += 1) ctx.lineTo(ok[i].x, ok[i].y);
 				ctx.closePath();
-				ctx.fillStyle = fog(color, dz, glow);
+				ctx.fillStyle = fog(color, dz);
 				ctx.fill();
 			}
 		};
 	}
 	function nearestBay(z) {
 		let best = null;
-		let dist = 2.15;
+		let dist = 2.05;
 		for (const bay of BAYS) {
 			const gap = Math.abs(bay.z - z);
 			if (gap < dist) {
@@ -584,7 +284,7 @@
 		return best;
 	}
 	function clampWalk(z) {
-		return Math.max(.6, Math.min(END_Z - 1.4, z));
+		return Math.max(.5, Math.min(38.5, z));
 	}
 	function drawCorridor(ctx, w, h, z, yaw, opened, now) {
 		const cam = {
@@ -593,360 +293,476 @@
 			w,
 			h
 		};
-		const sky = ctx.createLinearGradient(0, 0, 0, h);
-		sky.addColorStop(0, "#071428");
-		sky.addColorStop(.45, "#12386a");
-		sky.addColorStop(1, "#071018");
-		ctx.fillStyle = sky;
+		ctx.fillStyle = "#d5e0ec";
 		ctx.fillRect(0, 0, w, h);
-		for (let i = 0; i < 40; i += 1) {
-			const sx = (i * 97 + now * .01) % w;
-			const sy = i * 53 % (h * .42);
-			ctx.fillStyle = `rgba(255,255,255,${.25 + i % 5 * .1})`;
-			ctx.fillRect(sx, sy, i % 4 === 0 ? 2 : 1.2, i % 4 === 0 ? 2 : 1.2);
-		}
 		const faces = [];
 		const push = (face) => {
 			if (face) faces.push(face);
 		};
-		const paintSpan = (z0, z1, stripe) => {
+		const span = (z0, z1) => {
 			push(quad(ctx, cam, [
 				[
-					-1.72,
+					-1.05,
 					FLOOR,
 					z0
 				],
 				[
-					WALL,
+					1.05,
 					FLOOR,
 					z0
 				],
 				[
-					WALL,
+					1.05,
 					FLOOR,
 					z1
 				],
 				[
-					-1.72,
+					-1.05,
 					FLOOR,
 					z1
 				]
-			], stripe % 2 ? "#0c3158" : "#123e6c"));
+			], "#f7f9fc"));
 			push(quad(ctx, cam, [
 				[
-					-1.72,
+					-1.15,
 					CEIL,
 					z0
 				],
 				[
-					-.28,
+					1.15,
 					CEIL,
 					z0
 				],
 				[
-					-.28,
+					1.15,
 					CEIL,
 					z1
 				],
 				[
-					-1.72,
+					-1.15,
 					CEIL,
 					z1
 				]
-			], "#102848"));
+			], "#eef3f8"));
 			push(quad(ctx, cam, [
 				[
-					.28,
-					CEIL,
+					-1.28,
+					-.72,
 					z0
 				],
 				[
-					WALL,
-					CEIL,
+					-1.28,
+					.82,
 					z0
 				],
 				[
-					WALL,
-					CEIL,
+					-1.28,
+					.82,
 					z1
 				],
 				[
-					.28,
-					CEIL,
-					z1
-				]
-			], "#102848"));
-			push(quad(ctx, cam, [
-				[
-					-1.72,
-					CEIL,
-					z0
-				],
-				[
-					-1.72,
-					FLOOR,
-					z0
-				],
-				[
-					-1.72,
-					FLOOR,
-					z1
-				],
-				[
-					-1.72,
-					CEIL,
+					-1.28,
+					-.72,
 					z1
 				]
-			], "#164678"));
+			], "#f3f6fb"));
 			push(quad(ctx, cam, [
 				[
 					WALL,
-					CEIL,
+					-.72,
 					z0
 				],
 				[
 					WALL,
-					FLOOR,
+					.82,
 					z0
 				],
 				[
 					WALL,
-					FLOOR,
+					.82,
 					z1
 				],
 				[
 					WALL,
-					CEIL,
+					-.72,
 					z1
 				]
-			], "#1c5894"));
+			], "#e7eef6"));
 			push(quad(ctx, cam, [
 				[
-					-.22,
-					-1.26,
+					-1.28,
+					-.72,
 					z0
 				],
 				[
-					.22,
-					-1.26,
+					-1.15,
+					CEIL,
 					z0
 				],
 				[
-					.22,
-					-1.26,
+					-1.15,
+					CEIL,
 					z1
 				],
 				[
-					-.22,
-					-1.26,
+					-1.28,
+					-.72,
 					z1
 				]
-			], "#d7f4ff", 30));
+			], "#dde6f0"));
+			push(quad(ctx, cam, [
+				[
+					WALL,
+					-.72,
+					z0
+				],
+				[
+					1.15,
+					CEIL,
+					z0
+				],
+				[
+					1.15,
+					CEIL,
+					z1
+				],
+				[
+					WALL,
+					-.72,
+					z1
+				]
+			], "#d5dee8"));
+			push(quad(ctx, cam, [
+				[
+					-.55,
+					-1,
+					z0 + .15
+				],
+				[
+					.55,
+					-1,
+					z0 + .15
+				],
+				[
+					.55,
+					-1,
+					z1 - .15
+				],
+				[
+					-.55,
+					-1,
+					z1 - .15
+				]
+			], "#fffdf6"));
+			push(quad(ctx, cam, [
+				[
+					-1.02,
+					.42,
+					z0
+				],
+				[
+					-.96,
+					.42,
+					z0
+				],
+				[
+					-.96,
+					.5,
+					z1
+				],
+				[
+					-1.02,
+					.5,
+					z1
+				]
+			], "#2f6db5"));
+			push(quad(ctx, cam, [
+				[
+					.96,
+					.42,
+					z0
+				],
+				[
+					1.02,
+					.42,
+					z0
+				],
+				[
+					1.02,
+					.5,
+					z1
+				],
+				[
+					.96,
+					.5,
+					z1
+				]
+			], "#2f6db5"));
+			push(quad(ctx, cam, [
+				[
+					-.72,
+					1.04,
+					z0 + .08
+				],
+				[
+					.72,
+					1.04,
+					z0 + .08
+				],
+				[
+					.72,
+					1.04,
+					z0 + .14
+				],
+				[
+					-.72,
+					1.04,
+					z0 + .14
+				]
+			], "#2a62b0"));
 		};
-		const first = Math.floor(z + .35) + 1;
-		paintSpan(z + .28, Math.min(first, END_Z), first);
-		for (let iz = first; iz < END_Z; iz += 1) paintSpan(iz, Math.min(iz + 1, END_Z), iz);
-		for (let iz = Math.ceil(z); iz <= END_Z; iz += 4) {
-			push(quad(ctx, cam, [
-				[
-					-1.72,
-					CEIL,
-					iz
-				],
-				[
-					WALL,
-					CEIL,
-					iz
-				],
-				[
-					WALL,
-					CEIL,
-					iz + .08
-				],
-				[
-					-1.72,
-					CEIL,
-					iz + .08
-				]
-			], "#9fd6ff", 18));
-			push(quad(ctx, cam, [
-				[
-					-1.72,
-					1.18,
-					iz
-				],
-				[
-					WALL,
-					1.18,
-					iz
-				],
-				[
-					WALL,
-					1.18,
-					iz + .08
-				],
-				[
-					-1.72,
-					1.18,
-					iz + .08
-				]
-			], "#7ad0ff", 10));
-		}
+		const first = Math.floor(z + .3) + 1;
+		span(z + .25, Math.min(first, 40));
+		for (let iz = first; iz < 40; iz += 1) span(iz, Math.min(iz + 1, 40));
+		const ring = (at) => {
+			const steps = 10;
+			for (let i = 0; i < steps; i += 1) {
+				const a0 = i / steps * Math.PI * 2;
+				const a1 = (i + 1) / steps * Math.PI * 2;
+				const p = (a, rad) => [
+					Math.cos(a) * rad * .95,
+					Math.sin(a) * rad * .78,
+					at
+				];
+				push(quad(ctx, cam, [
+					p(a0, .92),
+					p(a1, .92),
+					p(a1, 1.05),
+					p(a0, 1.05)
+				], "#c5d0dc"));
+			}
+		};
+		ring(7.2);
+		ring(20.2);
+		ring(33.4);
 		for (const bay of BAYS) {
-			const x = bay.side * 1.68;
-			const inset = bay.side * 1.44;
-			const y0 = -.72;
-			const y1 = .92;
-			const z0 = bay.z - .62;
-			const z1 = bay.z + .62;
-			const on = opened.has(bay.id);
+			const s = bay.side;
+			const xIn = s * .98;
+			const xOut = s * 1.24;
+			const z0 = bay.z - .7;
+			const z1 = bay.z + .7;
 			push(quad(ctx, cam, [
 				[
-					x,
-					-.7999999999999999,
-					z0 - .08
+					xIn,
+					-.55,
+					z0
 				],
 				[
-					x,
-					-.7999999999999999,
-					z1 + .08
+					xIn,
+					.78,
+					z0
 				],
 				[
-					x,
-					1,
-					z1 + .08
+					xIn,
+					.78,
+					z1
 				],
 				[
-					x,
-					1,
-					z0 - .08
+					xIn,
+					-.55,
+					z1
 				]
-			], "#f0b429", on ? 40 : 16));
+			], "#fbfcfe"));
 			push(quad(ctx, cam, [
 				[
-					inset,
-					y0,
+					xOut,
+					-.55,
 					z0
 				],
 				[
-					inset,
-					y0,
-					z1
-				],
-				[
-					inset,
-					y1,
-					z1
-				],
-				[
-					inset,
-					y1,
+					xIn,
+					-.55,
 					z0
+				],
+				[
+					xIn,
+					-.55,
+					z1
+				],
+				[
+					xOut,
+					-.55,
+					z1
 				]
-			], on ? "#fff4c8" : bay.color, on ? 36 : 12));
+			], "#d5deea"));
 			push(quad(ctx, cam, [
 				[
-					x,
-					y0,
-					z0
+					xIn,
+					-.15,
+					z0 + .12
 				],
 				[
-					inset,
-					y0,
-					z0
+					xIn,
+					.42,
+					z0 + .12
 				],
 				[
-					inset,
-					y1,
-					z0
+					xIn,
+					.42,
+					z1 - .12
 				],
 				[
-					x,
-					y1,
-					z0
+					xIn,
+					-.15,
+					z1 - .12
 				]
-			], "#0d3a68"));
+			], bay.id === "journal" ? "#6f97cf" : "#1d2430"));
 			push(quad(ctx, cam, [
 				[
-					x,
-					y0,
-					z1
+					xIn - s * .02,
+					-.05,
+					bay.z - .28
 				],
 				[
-					inset,
-					y0,
-					z1
+					xIn - s * .02,
+					.22,
+					bay.z - .28
 				],
 				[
-					inset,
-					y1,
-					z1
+					xIn - s * .02,
+					.22,
+					bay.z + .28
 				],
 				[
-					x,
-					y1,
-					z1
+					xIn - s * .02,
+					-.05,
+					bay.z + .28
 				]
-			], "#0a2c50"));
+			], opened.has(bay.id) ? "#fff4c4" : "#ffffff"));
+			if (bay.id === "bunk") push(quad(ctx, cam, [
+				[
+					s * .72,
+					.15,
+					bay.z - .35
+				],
+				[
+					s * .72,
+					.85,
+					bay.z - .35
+				],
+				[
+					s * .72,
+					.85,
+					bay.z + .35
+				],
+				[
+					s * .72,
+					.15,
+					bay.z + .35
+				]
+			], "#2f6db5"));
+			if (bay.id === "pulse" || bay.id === "plant") push(quad(ctx, cam, [
+				[
+					s * .55,
+					.62,
+					bay.z - .2
+				],
+				[
+					s * .78,
+					.62,
+					bay.z - .2
+				],
+				[
+					s * .78,
+					.9,
+					bay.z + .18
+				],
+				[
+					s * .55,
+					.9,
+					bay.z + .18
+				]
+			], "#f08a3c"));
 		}
-		const end = END_Z;
 		push(quad(ctx, cam, [
 			[
-				-1.72,
-				CEIL,
-				end
+				-1.05,
+				-.85,
+				40
 			],
 			[
-				WALL,
-				CEIL,
-				end
+				1.05,
+				-.85,
+				40
 			],
 			[
-				WALL,
-				FLOOR,
-				end
+				1.05,
+				.9,
+				40
 			],
 			[
-				-1.72,
-				FLOOR,
-				end
+				-1.05,
+				.9,
+				40
 			]
-		], "#081828"));
+		], "#101820"));
 		faces.sort((a, b) => b.dz - a.dz);
 		for (const face of faces) face.draw();
-		const earth = project(0, .05, end - .2, cam);
-		if (earth) {
-			const radius = Math.max(8, 78 / earth.dz);
-			const glow = ctx.createRadialGradient(earth.x, earth.y, radius * .2, earth.x, earth.y, radius * 1.6);
-			glow.addColorStop(0, "rgba(140,210,255,0.9)");
-			glow.addColorStop(1, "rgba(140,210,255,0)");
-			ctx.fillStyle = glow;
+		const hatch = project(0, .02, 39.95, cam);
+		if (hatch) {
+			const radius = Math.max(10, 90 / hatch.dz);
+			ctx.fillStyle = "#16324a";
 			ctx.beginPath();
-			ctx.arc(earth.x, earth.y, radius * 1.6, 0, Math.PI * 2);
+			ctx.arc(hatch.x, hatch.y, radius, 0, Math.PI * 2);
 			ctx.fill();
+			ctx.strokeStyle = "#d5deea";
+			ctx.lineWidth = Math.max(3, 10 / hatch.dz);
+			ctx.stroke();
 			ctx.fillStyle = "#1f6fe0";
 			ctx.beginPath();
-			ctx.arc(earth.x, earth.y, radius, 0, Math.PI * 2);
-			ctx.fill();
-			ctx.fillStyle = "#37c48a";
-			ctx.beginPath();
-			ctx.arc(earth.x - radius * .2, earth.y, radius * .45, 0, Math.PI * 2);
+			ctx.arc(hatch.x, hatch.y, radius * .55, 0, Math.PI * 2);
 			ctx.fill();
 		}
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		for (const bay of BAYS) {
-			const spot = project(bay.side * 1.15, .05, bay.z, cam);
-			if (!spot || spot.dz > 14) continue;
-			const size = Math.max(13, Math.min(34, 150 / spot.dz));
+		for (const sign of [
+			{
+				at: 2.2,
+				zh: "節點艙",
+				en: "Node"
+			},
+			{
+				at: 11,
+				zh: "天和 · 生活段",
+				en: "Tianhe living"
+			},
+			{
+				at: 21,
+				zh: "問天實驗艙",
+				en: "Wentian lab"
+			},
+			{
+				at: 34,
+				zh: "閱讀角",
+				en: "Reading"
+			}
+		]) {
+			const spot = project(0, -.78, sign.at, cam);
+			if (!spot || spot.dz > 16) continue;
+			const size = Math.max(13, Math.min(28, 120 / spot.dz));
 			ctx.font = `800 ${size}px "Noto Sans TC", sans-serif`;
-			ctx.fillStyle = "rgba(8,20,40,0.45)";
-			ctx.fillText(bay.name, spot.x + 1, spot.y + 1);
-			ctx.fillStyle = opened.has(bay.id) ? "#fff6cf" : "#f4f8ff";
-			ctx.fillText(bay.name, spot.x, spot.y);
-			ctx.font = `650 ${Math.max(10, size * .42)}px "Noto Sans TC", sans-serif`;
-			ctx.fillStyle = "#d7f1ff";
-			ctx.fillText(bay.en, spot.x, spot.y + size * .62);
+			ctx.fillStyle = "#1a3e68";
+			ctx.fillText(sign.zh, spot.x, spot.y);
+			ctx.font = `650 ${size * .45}px "Noto Sans TC", sans-serif`;
+			ctx.fillStyle = "#3d6f9a";
+			ctx.fillText(sign.en, spot.x, spot.y + size * .7);
+		}
+		for (const bay of BAYS) {
+			const spot = project(bay.side * .9, .08, bay.z, cam);
+			if (!spot || spot.dz > 11) continue;
+			ctx.font = `800 ${Math.max(12, Math.min(22, 92 / spot.dz))}px "Noto Sans TC", sans-serif`;
+			ctx.fillStyle = "#102033";
+			ctx.fillText(bay.book.replace("圖書：", ""), spot.x, spot.y);
 		}
 		return nearestBay(z);
 	}
@@ -976,6 +792,11 @@
 <style>
   #app { display:grid; height:100dvh; grid-template-rows:auto minmax(0,1fr) auto; }
   #stage { min-height:0; }
+  #recommend {
+    position: absolute; left: 12px; right: 12px; bottom: 12px; margin: 0;
+    background: rgba(20,86,148,0.94); border: 1px solid #3d8ad0; border-radius: 16px;
+    padding: 10px 14px; font-weight: 800;
+  }
   #dock { display:grid; grid-template-columns:1fr 1.3fr 1fr; gap:8px; padding:8px; }
   #dock button { min-height:58px; }
   #done-list { margin:8px 0; padding-left:1.1em; }
@@ -991,10 +812,11 @@
 </header>
 <div id="stage">
   <canvas id="deck"></canvas>
+  <p id="recommend" hidden></p>
   <div id="brief" class="veil">
     <div class="card">
       <h2>走進太空站<span>Step inside</span></h2>
-      <p>拖動畫面往前走，左右看。靠近艙門就打開。每個艙是一項生存需要，也對上一本書。<span class="en">Drag to walk and look. Open a door when you are close.</span></p>
+      <p>照天宮的結構走：節點艙、天和生活段、問天實驗艙。沿途牆上看見圖書推薦，靠近可以打開。<span class="en">Follow Tianhe, then Wentian. Book titles are on the walls.</span></p>
       <button id="start" class="gold" type="button">開始行走<span>Start walking</span></button>
     </div>
   </div>
@@ -1038,10 +860,13 @@
 		done.hidden = phase !== "done";
 		openBtn.disabled = !near || phase !== "walk";
 		openBtn.innerHTML = near ? `打開${near.name}<span>Open</span>` : "靠近艙門<span>Walk closer</span>";
+		const recommend = document.getElementById("recommend");
+		recommend.hidden = !(phase === "walk" && near && !reading);
+		if (near) recommend.textContent = `${near.zone} · ${near.name}　${near.book}`;
 		const finish = document.getElementById("finish");
 		finish.hidden = opened.size === 0 || phase !== "walk";
 		if (reading) {
-			document.getElementById("sheet-en").textContent = reading.en;
+			document.getElementById("sheet-en").textContent = `${reading.zone} · ${reading.zoneEn}`;
 			document.getElementById("sheet-name").textContent = reading.name;
 			document.getElementById("sheet-hint").innerHTML = `${reading.hint}<span class="en">${reading.hintEn}</span>`;
 			document.getElementById("sheet-book").innerHTML = `${reading.book}<span class="en">${reading.bookEn}</span>`;
