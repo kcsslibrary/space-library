@@ -766,6 +766,259 @@
 		}
 		return nearestBay(z);
 	}
+	const SPOTS = {
+		gate: [
+			{
+				label: "前向",
+				en: "Forward",
+				fact: "神舟從前面或下面對接進來。",
+				factEn: "Shenzhou docks at the front or the bottom."
+			},
+			{
+				label: "問天",
+				en: "Wentian",
+				fact: "一側接問天，負責出艙和生命實驗。",
+				factEn: "Wentian is on one side: spacewalks and life science."
+			},
+			{
+				label: "夢天",
+				en: "Mengtian",
+				fact: "另一側接夢天，做材料實驗，貨物從方形艙門出去。",
+				factEn: "Mengtian is the other side. Cargo uses a square hatch."
+			}
+		],
+		journal: [
+			{
+				label: "睡袋",
+				en: "Bag",
+				fact: "睡袋把人固定住，所以可以躺着睡。",
+				factEn: "The bag holds you, so you can lie down."
+			},
+			{
+				label: "小窗",
+				en: "Window",
+				fact: "一天大約十六次日出，睡覺仍跟北京時間。",
+				factEn: "About sixteen sunrises a day. Sleep follows Beijing time."
+			},
+			{
+				label: "隔間",
+				en: "Berth",
+				fact: "三個人各有一個小隔間。",
+				factEn: "Each of the three crew has a berth."
+			}
+		],
+		bunk: [
+			{
+				label: "單車",
+				en: "Bike",
+				fact: "問天艙裡有健身單車。",
+				factEn: "Wentian has an exercise bike."
+			},
+			{
+				label: "劃船機",
+				en: "Rower",
+				fact: "夢天艙裡是抗阻劃船機。",
+				factEn: "Mengtian has a resistance rower."
+			},
+			{
+				label: "兩小時",
+				en: "Two hours",
+				fact: "每天大約運動兩小時，不然肌肉會少。",
+				factEn: "About two hours a day, or muscle fades."
+			}
+		],
+		dish: [
+			{
+				label: "螢幕",
+				en: "Screen",
+				fact: "操作畫面是中文。",
+				factEn: "The screens are in Chinese."
+			},
+			{
+				label: "通話",
+				en: "Call",
+				fact: "從這裡和地面控制中心說話。",
+				factEn: "This is how they talk to mission control."
+			},
+			{
+				label: "時刻",
+				en: "Clock",
+				fact: "艙裡的鐘跟北京時間，不跟日出。",
+				factEn: "The clock keeps Beijing time, not the sunrises."
+			}
+		],
+		beidou: [
+			{
+				label: "櫃門",
+				en: "Door",
+				fact: "實驗收在櫃裡，打開才看見。",
+				factEn: "The experiment is inside the rack."
+			},
+			{
+				label: "手套",
+				en: "Gloves",
+				fact: "有些實驗要隔着手套做。",
+				factEn: "Some work is done through gloves."
+			},
+			{
+				label: "夢天櫃",
+				en: "Mengtian",
+				fact: "夢天的櫃子做流體、材料和燃燒。",
+				factEn: "Mengtian's racks study fluids, materials and fire."
+			}
+		],
+		plant: [
+			{
+				label: "水稻",
+				en: "Rice",
+				fact: "天宮真的種過水稻。",
+				factEn: "Tiangong really grew rice."
+			},
+			{
+				label: "根",
+				en: "Roots",
+				fact: "沒有上下，根不會乖乖向下。",
+				factEn: "Without up and down, roots wander."
+			},
+			{
+				label: "筆記",
+				en: "Notes",
+				fact: "看完要寫下來。這就是閱讀。",
+				factEn: "Then you write it down. That is the reading."
+			}
+		],
+		pulse: [
+			{
+				label: "水",
+				en: "Water",
+				fact: "冷凝水淨化後可以再喝。",
+				factEn: "Condensate is cleaned and drunk again."
+			},
+			{
+				label: "空氣",
+				en: "Air",
+				fact: "二氧化碳要從空氣裡拿掉。",
+				factEn: "Carbon dioxide has to come out of the air."
+			},
+			{
+				label: "管子",
+				en: "Pipes",
+				fact: "管子沿着艙壁走，不能佔通道。",
+				factEn: "Pipes run along the wall and stay out of the aisle."
+			}
+		],
+		shelf: [
+			{
+				label: "傳記",
+				en: "Diary",
+				fact: "航天員傳記，寫睡眠和運動。",
+				factEn: "A biography of sleep and exercise aboard."
+			},
+			{
+				label: "火星救援",
+				en: "Martian",
+				fact: "《火星救援》寫種糧和找水。",
+				factEn: "The Martian is about growing food and finding water."
+			},
+			{
+				label: "自己的書",
+				en: "Yours",
+				fact: "如果只能帶一本，你會帶哪本？",
+				factEn: "If you could bring one book, which?"
+			}
+		]
+	};
+	function drawInterior(ctx, w, h, id, pick, now) {
+		const wall = ctx.createLinearGradient(0, 0, 0, h);
+		wall.addColorStop(0, "#f7f9fc");
+		wall.addColorStop(.72, "#e7eef6");
+		wall.addColorStop(1, "#c5d4e4");
+		ctx.fillStyle = wall;
+		ctx.fillRect(0, 0, w, h);
+		ctx.fillStyle = "#2f6db5";
+		ctx.fillRect(0, h * .62, w, 8);
+		(SPOTS[id] ?? []).forEach((spot, index) => {
+			const x = w * (.18 + index * .32);
+			const y = h * .34;
+			const on = index === pick;
+			ctx.save();
+			ctx.translate(x, y + Math.sin(now / 400 + index) * (on ? 4 : 0));
+			ctx.fillStyle = on ? "#fff4c4" : "#ffffff";
+			ctx.strokeStyle = on ? "#f0b429" : "#8aa4c4";
+			ctx.lineWidth = on ? 6 : 2;
+			round(ctx, -54, -70, 108, 150, 16);
+			ctx.fill();
+			ctx.stroke();
+			prop(ctx, id, index);
+			ctx.fillStyle = "#102033";
+			ctx.font = `800 16px "Noto Sans TC", sans-serif`;
+			ctx.textAlign = "center";
+			ctx.fillText(spot.label, 0, 96);
+			ctx.fillStyle = "#3d6f9a";
+			ctx.font = `650 12px "Noto Sans TC", sans-serif`;
+			ctx.fillText(spot.en, 0, 114);
+			ctx.restore();
+		});
+	}
+	function round(ctx, x, y, w, h, r) {
+		ctx.beginPath();
+		ctx.moveTo(x + r, y);
+		ctx.arcTo(x + w, y, x + w, y + h, r);
+		ctx.arcTo(x + w, y + h, x, y + h, r);
+		ctx.arcTo(x, y + h, x, y, r);
+		ctx.arcTo(x, y, x + w, y, r);
+		ctx.closePath();
+	}
+	function prop(ctx, id, index) {
+		ctx.save();
+		if (id === "journal" && index === 0) {
+			ctx.fillStyle = "#6f97cf";
+			round(ctx, -28, -20, 56, 36, 8);
+			ctx.fill();
+		} else if (id === "journal" && index === 1) {
+			ctx.fillStyle = "#1f6fe0";
+			ctx.beginPath();
+			ctx.arc(0, -8, 22, 0, Math.PI * 2);
+			ctx.fill();
+			ctx.fillStyle = "#37c48a";
+			ctx.beginPath();
+			ctx.arc(-6, -8, 10, 0, Math.PI * 2);
+			ctx.fill();
+		} else if (id === "bunk" && index === 0) {
+			ctx.strokeStyle = "#2f6db5";
+			ctx.lineWidth = 6;
+			ctx.beginPath();
+			ctx.arc(0, 0, 22, 0, Math.PI * 2);
+			ctx.stroke();
+		} else if (id === "plant" && index === 0) {
+			ctx.fillStyle = "#3dba78";
+			ctx.beginPath();
+			ctx.arc(0, -8, 16, 0, Math.PI * 2);
+			ctx.fill();
+			ctx.fillStyle = "#1d6b48";
+			ctx.fillRect(-3, 8, 6, 16);
+		} else if (id === "pulse") {
+			ctx.strokeStyle = "#0e6b58";
+			ctx.lineWidth = 5;
+			ctx.beginPath();
+			ctx.arc(0, 0, 18, index * .6, Math.PI * 1.6);
+			ctx.stroke();
+		} else if (id === "shelf") {
+			ctx.fillStyle = index === 1 ? "#c44832" : "#e2b15a";
+			ctx.fillRect(-16, -28, 32, 44);
+		} else if (id === "gate") {
+			ctx.strokeStyle = "#8aa0b8";
+			ctx.lineWidth = 5;
+			ctx.beginPath();
+			ctx.arc(0, -4, 20, 0, Math.PI * 2);
+			ctx.stroke();
+		} else {
+			ctx.fillStyle = "#1d2430";
+			round(ctx, -22, -24, 44, 32, 4);
+			ctx.fill();
+		}
+		ctx.restore();
+	}
 	//#endregion
 	//#region src/standalone.ts
 	const CLOUD_KEY = "tiangong-walk-opens";
@@ -776,6 +1029,7 @@
 	let vel = 0;
 	let near = null;
 	let reading = null;
+	let pick = 0;
 	let dragX = 0;
 	let dragY = 0;
 	let dragging = false;
@@ -823,8 +1077,8 @@
   <div id="sheet" class="veil" hidden style="align-items:flex-end">
     <div class="card">
       <p id="sheet-en" class="kicker"></p>
-      <h2 id="sheet-name"></h2>
-      <p id="sheet-hint"></p>
+      <div id="spots" class="row"></div>
+      <p id="sheet-fact"></p>
       <p id="sheet-book" class="read"></p>
       <button id="keep" class="gold" type="button">繼續走<span>Keep walking</span></button>
     </div>
@@ -866,10 +1120,12 @@
 		const finish = document.getElementById("finish");
 		finish.hidden = opened.size === 0 || phase !== "walk";
 		if (reading) {
-			document.getElementById("sheet-en").textContent = `${reading.zone} · ${reading.zoneEn}`;
-			document.getElementById("sheet-name").textContent = reading.name;
-			document.getElementById("sheet-hint").innerHTML = `${reading.hint}<span class="en">${reading.hintEn}</span>`;
-			document.getElementById("sheet-book").innerHTML = `${reading.book}<span class="en">${reading.bookEn}</span>`;
+			document.getElementById("sheet-en").textContent = `${reading.zone} · ${reading.name}`;
+			const spots = document.getElementById("spots");
+			spots.innerHTML = (SPOTS[reading.id] ?? []).map((item, index) => `<button type="button" data-spot="${index}" class="${index === pick ? "on" : ""}">${item.label}<span>${item.en}</span></button>`).join("");
+			const chosen = SPOTS[reading.id]?.[pick];
+			document.getElementById("sheet-fact").innerHTML = `${chosen?.fact ?? ""}<span class="en">${chosen?.factEn ?? ""}</span>`;
+			document.getElementById("sheet-book").textContent = reading.book;
 		}
 		if (phase === "done") {
 			document.getElementById("done-list").innerHTML = [...opened].map((id) => {
@@ -894,6 +1150,12 @@
 		phase = "walk";
 		show();
 	});
+	document.getElementById("spots")?.addEventListener("click", (event) => {
+		const button = event.target.closest("button");
+		if (!button?.dataset.spot) return;
+		pick = Number(button.dataset.spot);
+		show();
+	});
 	document.getElementById("keep")?.addEventListener("click", () => {
 		reading = null;
 		show();
@@ -902,6 +1164,7 @@
 		if (!near) return;
 		opened.add(near.id);
 		reading = near;
+		pick = 0;
 		remember(near.id);
 		show();
 	});
@@ -971,10 +1234,13 @@
 		const rect = canvas.getBoundingClientRect();
 		const dpr = canvas.width / Math.max(1, rect.width);
 		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-		const bay = drawCorridor(ctx, rect.width, rect.height, z, yaw, opened, now);
-		if (bay?.id !== near?.id) {
-			near = bay;
-			if (!reading && phase === "walk") show();
+		if (reading) drawInterior(ctx, rect.width, rect.height, reading.id, pick, now);
+		else {
+			const bay = drawCorridor(ctx, rect.width, rect.height, z, yaw, opened, now);
+			if (bay?.id !== near?.id) {
+				near = bay;
+				if (phase === "walk") show();
+			}
 		}
 		requestAnimationFrame(loop);
 	}
