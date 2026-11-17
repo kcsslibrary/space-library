@@ -114,47 +114,88 @@
 <script>
 (function() {
 	//#region src/game/walk.ts
+	const BOOKS = [
+		{
+			id: "ship",
+			title: "太空船",
+			src: "books/ship.jpg"
+		},
+		{
+			id: "atlas",
+			title: "圖解天文小百科",
+			src: "books/atlas.jpg"
+		},
+		{
+			id: "first",
+			title: "我的第一堂太空科學常識",
+			src: "books/first.jpg"
+		},
+		{
+			id: "talk",
+			title: "和天文學家來談「天」",
+			src: "books/talk.jpg"
+		},
+		{
+			id: "how",
+			title: "太空奧祕大圖解",
+			src: "books/how.jpg"
+		},
+		{
+			id: "fly",
+			title: "飛進太空",
+			src: "books/fly.jpg"
+		}
+	];
 	const BAYS = [
 		{
 			id: "gate",
 			zone: "節點艙",
 			zoneEn: "Node",
-			name: "對接口",
-			en: "Docking hub",
-			hint: "天和前端。問天、夢天接在兩側，神舟從這裡進來。",
-			hintEn: "Wentian and Mengtian dock on the sides. Shenzhou arrives here.",
-			book: "圖書：天宮結構圖解。三艙呈 T 形。",
-			bookEn: "Book: a Tiangong diagram. Three modules make a T.",
+			name: "圓艙門",
+			en: "Hatch",
+			hint: "神舟從這裡進來。",
+			hintEn: "Shenzhou docks here.",
+			book: "太空船",
+			bookEn: "Spaceship",
+			cover: "books/ship.jpg",
+			line: "點書封看看：不同的船，怎麼飛、怎麼接。",
+			lineEn: "Open it. Ships, and how they join up.",
 			color: "#d7dee8",
-			z: 4.2,
+			z: 5,
 			side: 1
 		},
 		{
 			id: "journal",
 			zone: "天和核心艙",
 			zoneEn: "Tianhe",
-			name: "睡眠區",
-			en: "Sleep",
-			hint: "三個獨立睡眠區，睡袋固定，可以躺着睡。",
-			hintEn: "Three sleep stations. The bag holds you, so you can lie down.",
-			book: "圖書：航天員傳記，寫艙裡的一天。",
-			bookEn: "Book: an astronaut biography, one day aboard.",
+			name: "舷窗",
+			en: "Window",
+			hint: "往外看，地球在哪裡。",
+			hintEn: "Look out. Where is Earth?",
+			book: "圖解天文小百科",
+			bookEn: "Astronomy picture book",
+			cover: "books/atlas.jpg",
+			line: "地球在第三圈。看完再望一望窗外。",
+			lineEn: "Earth is the third planet. Then look out the window.",
 			color: "#7ea2d6",
-			z: 9,
+			z: 11,
 			side: -1
 		},
 		{
 			id: "bunk",
 			zone: "天和核心艙",
 			zoneEn: "Tianhe",
-			name: "健身單車",
-			en: "Exercise",
-			hint: "問天有單車和跑步機，夢天有抗阻劃船機。每天約兩小時。",
-			hintEn: "A bike and treadmill in Wentian, a rower in Mengtian.",
-			book: "圖書：《失重與人體》。肌肉在天上會變少。",
-			bookEn: "Book: the body in weightlessness.",
+			name: "航天員的一天",
+			en: "A day aboard",
+			hint: "睡、吃、運動。",
+			hintEn: "Sleep, eat, exercise.",
+			book: "我的第一堂太空科學常識",
+			bookEn: "First space facts",
+			cover: "books/first.jpg",
+			line: "一頁一個常識：太空人怎麼過一天。",
+			lineEn: "One fact a page: a day in space.",
 			color: "#2f6db5",
-			z: 13.2,
+			z: 17,
 			side: 1
 		},
 		{
@@ -163,68 +204,49 @@
 			zoneEn: "Tianhe",
 			name: "通訊台",
 			en: "Comms",
-			hint: "生活段裡和地面說話、看操作畫面。",
-			hintEn: "Talk to the ground from the living section.",
-			book: "圖書：地面控制中心的任務故事。",
-			bookEn: "Book: stories from mission control.",
+			hint: "和地面問一句。",
+			hintEn: "Ask the ground.",
+			book: "和天文學家來談「天」",
+			bookEn: "Talking about the sky",
+			cover: "books/talk.jpg",
+			line: "宇之表無極。你會問天文學家哪一句？",
+			lineEn: "The sky has no edge. What would you ask?",
 			color: "#c9d6ea",
-			z: 17.2,
+			z: 23,
 			side: -1
 		},
 		{
 			id: "beidou",
 			zone: "問天實驗艙",
 			zoneEn: "Wentian",
-			name: "生命實驗櫃",
-			en: "Life lab",
-			hint: "問天做生命科學。夢天做流體、材料和燃燒。",
-			hintEn: "Wentian studies life. Mengtian studies materials and fluids.",
-			book: "圖書：太空實驗科普。櫃門後面就是實驗。",
-			bookEn: "Book: space-lab science. The rack hides an experiment.",
+			name: "實驗櫃",
+			en: "Lab rack",
+			hint: "打開圖，就看見探測器。",
+			hintEn: "The pictures show the probes.",
+			book: "太空奧祕大圖解",
+			bookEn: "How It Works: space",
+			cover: "books/how.jpg",
+			line: "望遠鏡、探測器、離子推進器，都在這本。",
+			lineEn: "Telescope, probes, ion drive.",
 			color: "#f0b429",
-			z: 22.4,
-			side: 1
-		},
-		{
-			id: "plant",
-			zone: "問天實驗艙",
-			zoneEn: "Wentian",
-			name: "植物培養",
-			en: "Plants",
-			hint: "天宮種過水稻。失重裡根不會向下。",
-			hintEn: "Tiangong grew rice. Roots lose up and down.",
-			book: "圖書：《火星救援》The Martian，自己種糧食。",
-			bookEn: "Book: The Martian, growing food.",
-			color: "#3dba78",
-			z: 26.6,
-			side: -1
-		},
-		{
-			id: "pulse",
-			zone: "問天實驗艙",
-			zoneEn: "Wentian",
-			name: "再生生保",
-			en: "Recycling",
-			hint: "水和空氣要循環再用。問天帶了這套系統。",
-			hintEn: "Water and air are recycled. Wentian carries that system.",
-			book: "圖書：《火星救援》的水，《太空移民》的封閉系統。",
-			bookEn: "Book: water in The Martian, closed systems in settlement books.",
-			color: "#7decc4",
-			z: 31,
+			z: 29,
 			side: 1
 		},
 		{
 			id: "shelf",
 			zone: "閱讀角",
 			zoneEn: "Reading",
-			name: "如果有圖書館",
-			en: "A library",
-			hint: "真艙沒有圖書館。封閉的日子裡，書可以調適心情。",
-			hintEn: "The real station has no library. Books steady a closed life.",
-			book: "圖書：你想帶上太空的那一本。",
-			bookEn: "Book: the one you would carry aboard.",
+			name: "書架",
+			en: "Shelf",
+			hint: "六本都在這裡，挑一本。",
+			hintEn: "All six books. Pick one.",
+			book: "飛進太空",
+			bookEn: "Flying to space",
+			cover: "books/fly.jpg",
+			line: "兒童科學館的衛星圖。其餘五本也可以拿。",
+			lineEn: "A satellite, cut open. The other five are here too.",
 			color: "#e2b15a",
-			z: 35.4,
+			z: 35,
 			side: -1
 		}
 	];
@@ -270,6 +292,30 @@
 				ctx.fill();
 			}
 		};
+	}
+	const covers = /* @__PURE__ */ new Map();
+	function coverImage(src) {
+		let img = covers.get(src);
+		if (!img) {
+			img = new Image();
+			img.src = src;
+			covers.set(src, img);
+		}
+		return img;
+	}
+	function paintCover(ctx, img, x, y, hgt, picked) {
+		if (!img.complete || !img.naturalWidth) return;
+		const wdt = hgt * .72;
+		ctx.save();
+		ctx.shadowColor = "rgba(16,32,51,0.35)";
+		ctx.shadowBlur = 16;
+		ctx.drawImage(img, x - wdt / 2, y - hgt / 2, wdt, hgt);
+		ctx.restore();
+		if (picked) {
+			ctx.strokeStyle = "#f0b429";
+			ctx.lineWidth = 4;
+			ctx.strokeRect(x - wdt / 2 - 3, y - hgt / 2 - 3, wdt + 6, hgt + 6);
+		}
 	}
 	function nearestBay(z) {
 		let best = null;
@@ -758,266 +804,26 @@
 			ctx.fillText(sign.en, spot.x, spot.y + size * .7);
 		}
 		for (const bay of BAYS) {
-			const spot = project(bay.side * .9, .08, bay.z, cam);
-			if (!spot || spot.dz > 11) continue;
-			ctx.font = `800 ${Math.max(12, Math.min(22, 92 / spot.dz))}px "Noto Sans TC", sans-serif`;
-			ctx.fillStyle = "#102033";
-			ctx.fillText(bay.book.replace("圖書：", ""), spot.x, spot.y);
+			const spot = project(bay.side * .9, -.02, bay.z, cam);
+			if (!spot || spot.dz > 14) continue;
+			const hgt = Math.max(48, Math.min(210, 340 / spot.dz));
+			paintCover(ctx, coverImage(bay.cover), spot.x, spot.y, hgt, opened.has(bay.id));
+			if (spot.dz < 7) {
+				ctx.font = `800 ${Math.max(14, Math.min(22, 90 / spot.dz))}px "Noto Sans TC", sans-serif`;
+				ctx.fillStyle = "#102033";
+				ctx.fillText(bay.book, spot.x, spot.y + hgt / 2 + 16);
+			}
 		}
 		return nearestBay(z);
 	}
-	const SPOTS = {
-		gate: [
-			{
-				label: "前向",
-				en: "Forward",
-				fact: "神舟從前面或下面對接進來。",
-				factEn: "Shenzhou docks at the front or the bottom."
-			},
-			{
-				label: "問天",
-				en: "Wentian",
-				fact: "一側接問天，負責出艙和生命實驗。",
-				factEn: "Wentian is on one side: spacewalks and life science."
-			},
-			{
-				label: "夢天",
-				en: "Mengtian",
-				fact: "另一側接夢天，做材料實驗，貨物從方形艙門出去。",
-				factEn: "Mengtian is the other side. Cargo uses a square hatch."
-			}
-		],
-		journal: [
-			{
-				label: "睡袋",
-				en: "Bag",
-				fact: "睡袋把人固定住，所以可以躺着睡。",
-				factEn: "The bag holds you, so you can lie down."
-			},
-			{
-				label: "小窗",
-				en: "Window",
-				fact: "一天大約十六次日出，睡覺仍跟北京時間。",
-				factEn: "About sixteen sunrises a day. Sleep follows Beijing time."
-			},
-			{
-				label: "隔間",
-				en: "Berth",
-				fact: "三個人各有一個小隔間。",
-				factEn: "Each of the three crew has a berth."
-			}
-		],
-		bunk: [
-			{
-				label: "單車",
-				en: "Bike",
-				fact: "問天艙裡有健身單車。",
-				factEn: "Wentian has an exercise bike."
-			},
-			{
-				label: "劃船機",
-				en: "Rower",
-				fact: "夢天艙裡是抗阻劃船機。",
-				factEn: "Mengtian has a resistance rower."
-			},
-			{
-				label: "兩小時",
-				en: "Two hours",
-				fact: "每天大約運動兩小時，不然肌肉會少。",
-				factEn: "About two hours a day, or muscle fades."
-			}
-		],
-		dish: [
-			{
-				label: "螢幕",
-				en: "Screen",
-				fact: "操作畫面是中文。",
-				factEn: "The screens are in Chinese."
-			},
-			{
-				label: "通話",
-				en: "Call",
-				fact: "從這裡和地面控制中心說話。",
-				factEn: "This is how they talk to mission control."
-			},
-			{
-				label: "時刻",
-				en: "Clock",
-				fact: "艙裡的鐘跟北京時間，不跟日出。",
-				factEn: "The clock keeps Beijing time, not the sunrises."
-			}
-		],
-		beidou: [
-			{
-				label: "櫃門",
-				en: "Door",
-				fact: "實驗收在櫃裡，打開才看見。",
-				factEn: "The experiment is inside the rack."
-			},
-			{
-				label: "手套",
-				en: "Gloves",
-				fact: "有些實驗要隔着手套做。",
-				factEn: "Some work is done through gloves."
-			},
-			{
-				label: "夢天櫃",
-				en: "Mengtian",
-				fact: "夢天的櫃子做流體、材料和燃燒。",
-				factEn: "Mengtian's racks study fluids, materials and fire."
-			}
-		],
-		plant: [
-			{
-				label: "水稻",
-				en: "Rice",
-				fact: "天宮真的種過水稻。",
-				factEn: "Tiangong really grew rice."
-			},
-			{
-				label: "根",
-				en: "Roots",
-				fact: "沒有上下，根不會乖乖向下。",
-				factEn: "Without up and down, roots wander."
-			},
-			{
-				label: "筆記",
-				en: "Notes",
-				fact: "看完要寫下來。這就是閱讀。",
-				factEn: "Then you write it down. That is the reading."
-			}
-		],
-		pulse: [
-			{
-				label: "水",
-				en: "Water",
-				fact: "冷凝水淨化後可以再喝。",
-				factEn: "Condensate is cleaned and drunk again."
-			},
-			{
-				label: "空氣",
-				en: "Air",
-				fact: "二氧化碳要從空氣裡拿掉。",
-				factEn: "Carbon dioxide has to come out of the air."
-			},
-			{
-				label: "管子",
-				en: "Pipes",
-				fact: "管子沿着艙壁走，不能佔通道。",
-				factEn: "Pipes run along the wall and stay out of the aisle."
-			}
-		],
-		shelf: [
-			{
-				label: "傳記",
-				en: "Diary",
-				fact: "航天員傳記，寫睡眠和運動。",
-				factEn: "A biography of sleep and exercise aboard."
-			},
-			{
-				label: "火星救援",
-				en: "Martian",
-				fact: "《火星救援》寫種糧和找水。",
-				factEn: "The Martian is about growing food and finding water."
-			},
-			{
-				label: "自己的書",
-				en: "Yours",
-				fact: "如果只能帶一本，你會帶哪本？",
-				factEn: "If you could bring one book, which?"
-			}
-		]
-	};
-	function drawInterior(ctx, w, h, id, pick, now) {
+	function drawInterior(ctx, w, h) {
 		const wall = ctx.createLinearGradient(0, 0, 0, h);
-		wall.addColorStop(0, "#f7f9fc");
-		wall.addColorStop(.72, "#e7eef6");
-		wall.addColorStop(1, "#c5d4e4");
+		wall.addColorStop(0, "#f7fbff");
+		wall.addColorStop(1, "#d5e2f0");
 		ctx.fillStyle = wall;
 		ctx.fillRect(0, 0, w, h);
 		ctx.fillStyle = "#2f6db5";
-		ctx.fillRect(0, h * .62, w, 8);
-		(SPOTS[id] ?? []).forEach((spot, index) => {
-			const x = w * (.18 + index * .32);
-			const y = h * .34;
-			const on = index === pick;
-			ctx.save();
-			ctx.translate(x, y + Math.sin(now / 400 + index) * (on ? 4 : 0));
-			ctx.fillStyle = on ? "#fff4c4" : "#ffffff";
-			ctx.strokeStyle = on ? "#f0b429" : "#8aa4c4";
-			ctx.lineWidth = on ? 6 : 2;
-			round(ctx, -54, -70, 108, 150, 16);
-			ctx.fill();
-			ctx.stroke();
-			prop(ctx, id, index);
-			ctx.fillStyle = "#102033";
-			ctx.font = `800 16px "Noto Sans TC", sans-serif`;
-			ctx.textAlign = "center";
-			ctx.fillText(spot.label, 0, 96);
-			ctx.fillStyle = "#3d6f9a";
-			ctx.font = `650 12px "Noto Sans TC", sans-serif`;
-			ctx.fillText(spot.en, 0, 114);
-			ctx.restore();
-		});
-	}
-	function round(ctx, x, y, w, h, r) {
-		ctx.beginPath();
-		ctx.moveTo(x + r, y);
-		ctx.arcTo(x + w, y, x + w, y + h, r);
-		ctx.arcTo(x + w, y + h, x, y + h, r);
-		ctx.arcTo(x, y + h, x, y, r);
-		ctx.arcTo(x, y, x + w, y, r);
-		ctx.closePath();
-	}
-	function prop(ctx, id, index) {
-		ctx.save();
-		if (id === "journal" && index === 0) {
-			ctx.fillStyle = "#6f97cf";
-			round(ctx, -28, -20, 56, 36, 8);
-			ctx.fill();
-		} else if (id === "journal" && index === 1) {
-			ctx.fillStyle = "#1f6fe0";
-			ctx.beginPath();
-			ctx.arc(0, -8, 22, 0, Math.PI * 2);
-			ctx.fill();
-			ctx.fillStyle = "#37c48a";
-			ctx.beginPath();
-			ctx.arc(-6, -8, 10, 0, Math.PI * 2);
-			ctx.fill();
-		} else if (id === "bunk" && index === 0) {
-			ctx.strokeStyle = "#2f6db5";
-			ctx.lineWidth = 6;
-			ctx.beginPath();
-			ctx.arc(0, 0, 22, 0, Math.PI * 2);
-			ctx.stroke();
-		} else if (id === "plant" && index === 0) {
-			ctx.fillStyle = "#3dba78";
-			ctx.beginPath();
-			ctx.arc(0, -8, 16, 0, Math.PI * 2);
-			ctx.fill();
-			ctx.fillStyle = "#1d6b48";
-			ctx.fillRect(-3, 8, 6, 16);
-		} else if (id === "pulse") {
-			ctx.strokeStyle = "#0e6b58";
-			ctx.lineWidth = 5;
-			ctx.beginPath();
-			ctx.arc(0, 0, 18, index * .6, Math.PI * 1.6);
-			ctx.stroke();
-		} else if (id === "shelf") {
-			ctx.fillStyle = index === 1 ? "#c44832" : "#e2b15a";
-			ctx.fillRect(-16, -28, 32, 44);
-		} else if (id === "gate") {
-			ctx.strokeStyle = "#8aa0b8";
-			ctx.lineWidth = 5;
-			ctx.beginPath();
-			ctx.arc(0, -4, 20, 0, Math.PI * 2);
-			ctx.stroke();
-		} else {
-			ctx.fillStyle = "#1d2430";
-			round(ctx, -22, -24, 44, 32, 4);
-			ctx.fill();
-		}
-		ctx.restore();
+		ctx.fillRect(0, h * .78, w, 8);
 	}
 	//#endregion
 	//#region src/standalone.ts
@@ -1030,6 +836,7 @@
 	let near = null;
 	let reading = null;
 	let pick = 0;
+	let page = false;
 	let dragX = 0;
 	let dragY = 0;
 	let dragging = false;
@@ -1048,9 +855,16 @@
   #stage { min-height:0; }
   #recommend {
     position: absolute; left: 12px; right: 12px; bottom: 12px; margin: 0;
-    background: rgba(20,86,148,0.94); border: 1px solid #3d8ad0; border-radius: 16px;
-    padding: 10px 14px; font-weight: 800;
+    display: flex; gap: 12px; align-items: center; text-align: left;
+    background: rgba(255,255,255,0.96); color: #102033; border: 2px solid #e2b15a; border-radius: 20px;
+    padding: 8px 12px; font-weight: 800;
   }
+  #recommend img { height: 92px; width: auto; border-radius: 6px; }
+  #cover { height: min(46vh, 280px); width: auto; border-radius: 8px; box-shadow: 0 12px 30px rgba(0,0,0,.28); }
+  #shelf-row { display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; }
+  #shelf-row button { padding:4px; border-radius:8px; background: transparent; }
+  #shelf-row button.on { background: #e2b15a; }
+  #shelf-row img { height: 110px; width: auto; }
   #dock { display:grid; grid-template-columns:1fr 1.3fr 1fr; gap:8px; padding:8px; }
   #dock button { min-height:58px; }
   #done-list { margin:8px 0; padding-left:1.1em; }
@@ -1066,21 +880,20 @@
 </header>
 <div id="stage">
   <canvas id="deck"></canvas>
-  <p id="recommend" hidden></p>
+  <button id="recommend" type="button" hidden></button>
   <div id="brief" class="veil">
     <div class="card">
       <h2>走進太空站<span>Step inside</span></h2>
-      <p>照天宮的結構走：節點艙、天和生活段、問天實驗艙。沿途牆上看見圖書推薦，靠近可以打開。<span class="en">Follow Tianhe, then Wentian. Book titles are on the walls.</span></p>
+      <p>沿走廊走。看見書封，就拿起來。點一下書封，翻開一句。<span class="en">Walk. Pick up a cover. Tap it to open one page.</span></p>
       <button id="start" class="gold" type="button">開始行走<span>Start walking</span></button>
     </div>
   </div>
   <div id="sheet" class="veil" hidden style="align-items:flex-end">
     <div class="card">
-      <p id="sheet-en" class="kicker"></p>
-      <div id="spots" class="row"></div>
+      <img id="cover" alt="" />
+      <div id="shelf-row"></div>
       <p id="sheet-fact"></p>
-      <p id="sheet-book" class="read"></p>
-      <button id="keep" class="gold" type="button">繼續走<span>Keep walking</span></button>
+      <button id="keep" class="gold" type="button">放回書架<span>Put it back</span></button>
     </div>
   </div>
   <div id="done" class="veil" hidden style="align-items:flex-end">
@@ -1113,19 +926,27 @@
 		sheet.hidden = !reading;
 		done.hidden = phase !== "done";
 		openBtn.disabled = !near || phase !== "walk";
-		openBtn.innerHTML = near ? `打開${near.name}<span>Open</span>` : "靠近艙門<span>Walk closer</span>";
+		openBtn.innerHTML = near ? "拿起這本書<span>Pick it up</span>" : "走近一點<span>Walk closer</span>";
 		const recommend = document.getElementById("recommend");
 		recommend.hidden = !(phase === "walk" && near && !reading);
-		if (near) recommend.textContent = `${near.zone} · ${near.name}　${near.book}`;
+		if (near) recommend.innerHTML = `<img src="${near.cover}" alt="" /><span>${near.zone}<br>拿起《${near.book}》<br><small>${near.hint}</small></span>`;
 		const finish = document.getElementById("finish");
 		finish.hidden = opened.size === 0 || phase !== "walk";
 		if (reading) {
-			document.getElementById("sheet-en").textContent = `${reading.zone} · ${reading.name}`;
-			const spots = document.getElementById("spots");
-			spots.innerHTML = (SPOTS[reading.id] ?? []).map((item, index) => `<button type="button" data-spot="${index}" class="${index === pick ? "on" : ""}">${item.label}<span>${item.en}</span></button>`).join("");
-			const chosen = SPOTS[reading.id]?.[pick];
-			document.getElementById("sheet-fact").innerHTML = `${chosen?.fact ?? ""}<span class="en">${chosen?.factEn ?? ""}</span>`;
-			document.getElementById("sheet-book").textContent = reading.book;
+			const cover = document.getElementById("cover");
+			const row = document.getElementById("shelf-row");
+			const onShelf = reading.id === "shelf";
+			cover.hidden = onShelf;
+			row.hidden = !onShelf;
+			if (onShelf) {
+				row.innerHTML = BOOKS.map((book, index) => `<button type="button" data-spot="${index}" class="${index === pick ? "on" : ""}"><img src="${book.src}" alt="${book.title}" /></button>`).join("");
+				const chosen = BAYS[pick] ?? reading;
+				document.getElementById("sheet-fact").innerHTML = `${chosen.book}<span class="en">${chosen.line}</span>`;
+			} else {
+				cover.src = reading.cover;
+				cover.alt = reading.book;
+				document.getElementById("sheet-fact").innerHTML = page ? `${reading.line}<span class="en">${reading.lineEn}</span>` : `點書封翻開<span class="en">Tap the cover</span>`;
+			}
 		}
 		if (phase === "done") {
 			document.getElementById("done-list").innerHTML = [...opened].map((id) => {
@@ -1150,11 +971,18 @@
 		phase = "walk";
 		show();
 	});
-	document.getElementById("spots")?.addEventListener("click", (event) => {
+	document.getElementById("shelf-row")?.addEventListener("click", (event) => {
 		const button = event.target.closest("button");
 		if (!button?.dataset.spot) return;
 		pick = Number(button.dataset.spot);
 		show();
+	});
+	document.getElementById("cover")?.addEventListener("click", () => {
+		page = !page;
+		show();
+	});
+	document.getElementById("recommend")?.addEventListener("click", () => {
+		document.getElementById("open")?.dispatchEvent(new Event("click"));
 	});
 	document.getElementById("keep")?.addEventListener("click", () => {
 		reading = null;
@@ -1164,7 +992,8 @@
 		if (!near) return;
 		opened.add(near.id);
 		reading = near;
-		pick = 0;
+		pick = near.id === "shelf" ? BOOKS.length - 1 : 0;
+		page = false;
 		remember(near.id);
 		show();
 	});
@@ -1234,7 +1063,7 @@
 		const rect = canvas.getBoundingClientRect();
 		const dpr = canvas.width / Math.max(1, rect.width);
 		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-		if (reading) drawInterior(ctx, rect.width, rect.height, reading.id, pick, now);
+		if (reading) drawInterior(ctx, rect.width, rect.height);
 		else {
 			const bay = drawCorridor(ctx, rect.width, rect.height, z, yaw, opened, now);
 			if (bay?.id !== near?.id) {
