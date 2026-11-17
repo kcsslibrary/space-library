@@ -113,7 +113,7 @@
 <div id="app"></div>
 <script>
 (function() {
-	const BLOCKS = [
+	const BLOCK_MAP = Object.fromEntries([
 		{
 			id: "shelf",
 			name: "書架",
@@ -462,8 +462,7 @@
 			right: "#3dba78",
 			ink: "#042820"
 		}
-	];
-	const BLOCK_MAP = Object.fromEntries(BLOCKS.map((block) => [block.id, block]));
+	].map((block) => [block.id, block]));
 	const TRAITS = {
 		archive: {
 			id: "archive",
@@ -574,16 +573,41 @@
 	function emptyGrid() {
 		return Array.from({ length: 64 }, () => []);
 	}
-	function cloneGrid(grid) {
-		return grid.map((stack) => stack.slice());
+	const GUEST_SLOTS = [
+		27,
+		35,
+		20
+	];
+	const BRING_IDS = [
+		"shelf",
+		"comic",
+		"classic",
+		"bunk",
+		"plant",
+		"pulse",
+		"audio",
+		"atlas",
+		"holo",
+		"orbit"
+	];
+	function stationGrid() {
+		const grid = emptyGrid();
+		grid[11] = ["gate"];
+		grid[52] = ["window"];
+		grid[42] = ["seed"];
+		grid[22] = ["quiet"];
+		return grid;
 	}
-	function countCells(grid) {
+	function guestCounts(grid) {
 		const counts = emptyCounts();
-		for (const stack of grid) for (const id of stack) counts[id] += 1;
+		for (const index of GUEST_SLOTS) for (const id of grid[index] ?? []) counts[id] += 1;
 		return counts;
 	}
-	function totalPlaced(counts) {
-		return Object.values(counts).reduce((sum, n) => sum + n, 0);
+	function nextGuestSlot(grid) {
+		return GUEST_SLOTS.find((index) => (grid[index]?.length ?? 0) < 1) ?? null;
+	}
+	function cloneGrid(grid) {
+		return grid.map((stack) => stack.slice());
 	}
 	function analyze(counts) {
 		const scores = {
@@ -670,13 +694,6 @@
 			cy: 75
 		};
 	}
-	function screenToWorld(px, py, w, h) {
-		const { scale, cx, cy } = layout(w, h);
-		return {
-			x: (px - w / 2) / scale + cx,
-			y: (py - h / 2) / scale + cy
-		};
-	}
 	function diamond(sx, sy) {
 		return [
 			{
@@ -725,28 +742,6 @@
 				y: sy - zh
 			}
 		];
-	}
-	function pointInPoly(px, py, pts) {
-		let inside = false;
-		for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
-			const xi = pts[i].x;
-			const yi = pts[i].y;
-			const xj = pts[j].x;
-			const yj = pts[j].y;
-			if (yi > py !== yj > py && px < (xj - xi) * (py - yi) / (yj - yi) + xi) inside = !inside;
-		}
-		return inside;
-	}
-	function hitTest(wx, wy, rot, cells) {
-		for (let sum = 14; sum >= 0; sum--) for (let vx = 0; vx < 8; vx++) {
-			const vy = sum - vx;
-			if (vy < 0 || vy >= 8) continue;
-			const index = fromViewX(vx, vy, rot) + fromViewY(vx, vy, rot) * 8;
-			const p = project(vx, vy);
-			const levels = cells[index]?.length ?? 0;
-			if (pointInPoly(wx, wy, levels ? silhouette(p.x, p.y, levels) : diamond(p.x, p.y))) return index;
-		}
-		return null;
 	}
 	function fromViewX(vx, vy, rot) {
 		switch (rot & 3) {
@@ -1477,7 +1472,7 @@
 		drawSky(ctx, w, h, reduced ? 0 : now);
 		const { scale, cx, cy } = layout(w, h);
 		ctx.save();
-		ctx.translate(w / 2, h / 2);
+		ctx.translate(w / 2 + (scene.lookX ?? 0), h / 2 + (scene.lookY ?? 0));
 		ctx.scale(scale, scale);
 		ctx.translate(-cx, -cy);
 		ctx.beginPath();
@@ -1558,8 +1553,8 @@
 	}
 	//#endregion
 	//#region src/standalone.ts
-	const MIN_BLOCKS = 6;
-	const cellsRef = { current: emptyGrid() };
+	const MIN_BLOCKS = 1;
+	const cellsRef = { current: stationGrid() };
 	const toolRef = { current: "shelf" };
 	const rotRef = { current: 0 };
 	const phaseRef = { current: "brief" };
@@ -1567,13 +1562,14 @@
 	const pops = /* @__PURE__ */ new Map();
 	const particles = [];
 	const history = [];
-	const strokeCells = /* @__PURE__ */ new Set();
-	let stroke = false;
 	let painting = false;
-	let eraseBtn = false;
 	let muted = false;
 	let nameValue = "";
 	let thoughtValue = "";
+	let lookX = 0;
+	let lookY = 0;
+	let dragX = 0;
+	let dragY = 0;
 	let designs = [];
 	const size = {
 		w: 800,
@@ -1588,7 +1584,7 @@
   <div class="bar">
   <div>
     <p class="kicker">航向太空 A Voyage to Space</p>
-    <h1>太空圖書館建造師<span>Space Library Builder</span></h1>
+    <h1>帶一件上天宮<span>Bring one thing aboard</span></h1>
   </div>
   <button id="mute" class="icon" type="button" aria-label="關閉音效">音</button>
   </div>
@@ -1599,10 +1595,9 @@
   <div id="brief" class="veil">
     <div class="card">
       <p class="kicker">看完展覽再建造 See the display first</p>
-      <h2>你的太空圖書館<span>Your Space Library</span></h2>
-      <p>看完「航向太空」展板，就來建造。沒有答對答錯。書架、吊床、日出燈、水族箱，都可以放進你的天宮圖書館。<span class="en">After the display, build. Nothing is right or wrong.</span></p>
-      <p>完成後會生成詞雲，大家最想要的會變得最大。<span class="en">A word cloud appears when you finish. Favorites grow largest.</span></p>
-      <button id="start" class="gold" type="button">開始建造<span>Start building</span></button>
+      <h2>你會帶什麼？<span>What would you bring?</span></h2>
+      <p>如果讓你帶一樣東西上天宮，你會帶什麼？點一下，它會飛到空間站上。最多三樣。拖動畫面可以看周圍。<span class="en">Tap one thing. It lands on the station. Three at most. Drag to look around.</span></p>
+      <button id="start" class="gold" type="button">選一件帶上去<span>Pick one</span></button>
     </div>
   </div>
   <div id="done" class="veil" hidden>
@@ -1643,9 +1638,9 @@
     <button id="rot" type="button">旋轉<span>Rotate</span></button>
     <button id="undo" type="button">復原<span>Undo</span></button>
     <button id="clear" type="button">清空<span>Clear</span></button>
-    <button id="erase" type="button">拆除<span>Erase</span></button>
+    <button id="tilt" type="button">傾斜<span>Tilt</span></button>
     <p id="hint" class="muted">書架 Shelf<span>實體藏書 / Real books</span></p>
-    <button id="finish" class="gold" type="button">完成設計<span>Finish</span></button>
+    <button id="finish" class="gold" type="button">帶好了<span>Done</span></button>
   </div>
   <div id="palette"></div>
   <div id="confirm" hidden>
@@ -1691,8 +1686,8 @@
 		return "sm";
 	}
 	function renderCloud(target) {
-		const counts = countCells(cellsRef.current);
-		const ranked = BLOCKS.filter((block) => counts[block.id] > 0).sort((a, b) => counts[b.id] - counts[a.id]);
+		const counts = guestCounts(cellsRef.current);
+		const ranked = BRING_IDS.map((id) => BLOCK_MAP[id]).filter((block) => counts[block.id] > 0).sort((a, b) => counts[b.id] - counts[a.id]);
 		if (!ranked.length) {
 			target.innerHTML = `<p class="muted">放下模組，大家最想要的會變大。<span class="en">Place modules. Favorites grow larger.</span></p>`;
 			return;
@@ -1701,10 +1696,10 @@
 		target.innerHTML = ranked.map((block) => `<span class="${sizeClass(counts[block.id], max)}">${block.name} <b>${block.en}</b><i>${counts[block.id]}</i></span>`).join("");
 	}
 	function renderHud() {
-		const counts = countCells(cellsRef.current);
-		const placed = totalPlaced(counts);
+		guestCounts(cellsRef.current);
+		const placed = GUEST_SLOTS.reduce((sum, index) => sum + (cellsRef.current[index]?.length ?? 0), 0);
 		const count = document.getElementById("count");
-		if (count) count.innerHTML = `書架 ${counts.shelf}<span>Shelves · modules ${placed}/${MIN_BLOCKS}</span>`;
+		if (count) count.innerHTML = `已帶上 ${placed}<span>Aboard · ${placed}/3</span>`;
 		const cloud = document.getElementById("cloud");
 		if (cloud) renderCloud(cloud);
 		const hint = document.getElementById("hint");
@@ -1731,7 +1726,7 @@
 		const done = document.getElementById("done");
 		done.hidden = phase !== "done";
 		if (phase === "done") {
-			const trait = analyze(countCells(cellsRef.current));
+			const trait = analyze(guestCounts(cellsRef.current));
 			document.getElementById("trait").textContent = trait.title;
 			document.getElementById("trait-en").textContent = trait.titleEn;
 			document.getElementById("trait-body").textContent = trait.body;
@@ -1741,36 +1736,9 @@
 			renderCloud(document.getElementById("done-cloud"));
 		}
 	}
-	function paintAt(index) {
-		if (phaseRef.current !== "build") return;
-		const useErase = eraseBtn || toolRef.current === "erase";
-		const stack = cellsRef.current[index];
-		if (useErase) {
-			if (!stack.length) return;
-		} else if (stack.length >= 2 || strokeCells.has(index)) return;
-		if (!stroke) {
-			history.push(cloneGrid(cellsRef.current));
-			if (history.length > 40) history.shift();
-			stroke = true;
-		}
-		const copy = cloneGrid(cellsRef.current);
-		if (useErase) copy[index].pop();
-		else {
-			strokeCells.add(index);
-			copy[index].push(toolRef.current);
-		}
-		cellsRef.current = copy;
-		pops.set(index, performance.now());
-		const spot = worldOf(index, rotRef.current);
-		const level = Math.max(copy[index].length - 1, 0);
-		const color = useErase ? "#ff8b9a" : BLOCK_MAP[toolRef.current].top;
-		spawnBurst(particles, spot.x, spot.y - level * 40, color);
-		tone(useErase ? 180 : 520 + index % 5 * 30);
-		renderHud();
-	}
 	function clearGrid() {
 		history.push(cloneGrid(cellsRef.current));
-		cellsRef.current = emptyGrid();
+		cellsRef.current = stationGrid();
 		setPhase("build");
 		document.getElementById("confirm").hidden = true;
 		renderHud();
@@ -1793,16 +1761,38 @@
 		if (shape === "rack") return `<polygon points="8,34 54,34 54,10 8,24" fill="${left}"/>`;
 		return `<polygon points="32,6 56,18 32,30 8,18" fill="${top}"/><polygon points="8,18 32,30 32,42 8,30" fill="${left}"/><polygon points="32,30 56,18 56,30 32,42" fill="${right}"/>`;
 	}
-	palette.innerHTML = BLOCKS.map((block) => `<button type="button" data-id="${block.id}">
+	palette.innerHTML = BRING_IDS.map((id) => {
+		const block = BLOCK_MAP[id];
+		return `<button type="button" data-id="${block.id}">
     <svg viewBox="0 0 64 48" aria-hidden="true">${icon(block)}</svg>
     <span>${block.name}</span>
     <b>${block.en}</b>
-  </button>`).join("");
+  </button>`;
+	}).join("");
+	function dropBring(id) {
+		if (phaseRef.current === "brief") setPhase("build");
+		const slot = nextGuestSlot(cellsRef.current);
+		if (slot == null) {
+			toast("三樣就夠了。 Three is enough.");
+			tone(160);
+			return;
+		}
+		history.push(cloneGrid(cellsRef.current));
+		const copy = cloneGrid(cellsRef.current);
+		copy[slot] = [id];
+		cellsRef.current = copy;
+		toolRef.current = id;
+		pops.set(slot, performance.now());
+		const spot = worldOf(slot, rotRef.current);
+		spawnBurst(particles, spot.x, spot.y - 40, BLOCK_MAP[id].top);
+		tone(640);
+		toast(`${BLOCK_MAP[id].name}飛上空間站了。 ${BLOCK_MAP[id].en} is aboard.`);
+		renderHud();
+	}
 	palette.addEventListener("click", (event) => {
 		const button = event.target.closest("button");
 		if (!button?.dataset.id) return;
-		toolRef.current = button.dataset.id;
-		renderHud();
+		dropBring(button.dataset.id);
 	});
 	document.getElementById("start")?.addEventListener("click", () => {
 		setPhase("build");
@@ -1833,20 +1823,25 @@
 		document.getElementById("confirm").hidden = true;
 	});
 	document.getElementById("yes")?.addEventListener("click", clearGrid);
-	document.getElementById("erase")?.addEventListener("click", () => {
-		toolRef.current = "erase";
-		renderHud();
-	});
-	document.getElementById("finish")?.addEventListener("click", () => {
-		const counts = countCells(cellsRef.current);
-		const placed = totalPlaced(counts);
-		if (counts.shelf < 1) {
-			toast("至少放一個書架。圖書館要有書。 Place at least one shelf.");
-			tone(160);
+	document.getElementById("tilt")?.addEventListener("click", () => {
+		const orientation = DeviceOrientationEvent;
+		const listen = () => {
+			window.addEventListener("deviceorientation", (event) => {
+				lookX = Math.max(-70, Math.min(70, (event.gamma ?? 0) * .7));
+				lookY = Math.max(-46, Math.min(46, ((event.beta ?? 0) - 40) * .35));
+			});
+		};
+		if (orientation.requestPermission) {
+			orientation.requestPermission().then((state) => {
+				if (state === "granted") listen();
+			});
 			return;
 		}
-		if (placed < MIN_BLOCKS) {
-			toast(`再放 ${MIN_BLOCKS - placed} 個模組。 Add ${MIN_BLOCKS - placed} more modules.`);
+		listen();
+	});
+	document.getElementById("finish")?.addEventListener("click", () => {
+		if (GUEST_SLOTS.reduce((sum, index) => sum + (cellsRef.current[index]?.length ?? 0), 0) < MIN_BLOCKS) {
+			toast("先帶一樣東西上去。 Bring one thing aboard.");
 			tone(160);
 			return;
 		}
@@ -1875,7 +1870,7 @@
 		});
 	}
 	document.getElementById("save")?.addEventListener("click", () => {
-		const trait = analyze(countCells(cellsRef.current));
+		const trait = analyze(guestCounts(cellsRef.current));
 		designs = [{
 			id: `${Date.now()}`,
 			name: nameValue.trim().slice(0, 8) || "未命名",
@@ -1900,32 +1895,22 @@
 		renderHud();
 		toast(`已打開「${design.name}」`);
 	});
-	function pointerWorld(event) {
-		const rect = canvas.getBoundingClientRect();
-		return screenToWorld((event.clientX - rect.left) / rect.width * size.w, (event.clientY - rect.top) / rect.height * size.h, size.w, size.h);
-	}
 	canvas.addEventListener("pointerdown", (event) => {
 		if (phaseRef.current !== "build") return;
 		canvas.setPointerCapture(event.pointerId);
 		painting = true;
-		stroke = false;
-		strokeCells.clear();
-		eraseBtn = event.button === 2;
-		const world = pointerWorld(event);
-		const index = hitTest(world.x, world.y, rotRef.current, cellsRef.current);
-		hoverRef.current = index;
-		if (index !== null) paintAt(index);
+		dragX = event.clientX;
+		dragY = event.clientY;
 	});
 	canvas.addEventListener("pointermove", (event) => {
-		const world = pointerWorld(event);
-		const index = hitTest(world.x, world.y, rotRef.current, cellsRef.current);
-		hoverRef.current = index;
-		if (painting && index !== null) paintAt(index);
+		if (!painting) return;
+		lookX = Math.max(-90, Math.min(90, lookX + event.clientX - dragX));
+		lookY = Math.max(-70, Math.min(70, lookY + event.clientY - dragY));
+		dragX = event.clientX;
+		dragY = event.clientY;
 	});
 	function endStroke() {
 		painting = false;
-		eraseBtn = false;
-		stroke = false;
 	}
 	canvas.addEventListener("pointerup", endStroke);
 	canvas.addEventListener("pointercancel", endStroke);
@@ -1959,7 +1944,9 @@
 			pops,
 			particles,
 			now,
-			reduced: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+			reduced: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+			lookX,
+			lookY
 		});
 		requestAnimationFrame(loop);
 	}
