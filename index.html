@@ -116,10 +116,10 @@
 	const BLOCK_MAP = Object.fromEntries([
 		{
 			id: "shelf",
-			name: "書架",
-			en: "Shelf",
-			hint: "實體藏書",
-			hintEn: "Real books",
+			name: "圖書館",
+			en: "Library",
+			hint: "封閉環境也要讀書",
+			hintEn: "Reading in a closed cabin",
 			shape: "cube",
 			top: "#e2b15a",
 			left: "#8a5e28",
@@ -164,10 +164,10 @@
 		},
 		{
 			id: "bunk",
-			name: "吊床",
-			en: "Hammock",
-			hint: "失重裡讀書",
-			hintEn: "Read in zero-g",
+			name: "運動角",
+			en: "Gym",
+			hint: "失重會讓肌肉萎縮",
+			hintEn: "Weightlessness wastes muscle",
 			shape: "hammock",
 			top: "#f3b7c8",
 			left: "#8a4d62",
@@ -236,10 +236,10 @@
 		},
 		{
 			id: "plant",
-			name: "綠樹",
-			en: "Tree",
-			hint: "天宮種過水稻",
-			hintEn: "Tiangong grew rice",
+			name: "溫室",
+			en: "Greenhouse",
+			hint: "太空裡要自己種糧",
+			hintEn: "Grow food in space",
 			shape: "tree",
 			top: "#8ee0b0",
 			left: "#1d6b48",
@@ -284,10 +284,10 @@
 		},
 		{
 			id: "dish",
-			name: "觀景碟",
-			en: "Dish",
-			hint: "碟形天線角",
-			hintEn: "A viewing dish",
+			name: "通訊艙",
+			en: "Comms",
+			hint: "和地面保持聯絡",
+			hintEn: "Stay in touch with Earth",
 			shape: "dish",
 			top: "#c5d4ea",
 			left: "#3e5270",
@@ -368,10 +368,10 @@
 		},
 		{
 			id: "desk",
-			name: "借還台",
-			en: "Desk",
-			hint: "低櫃借書",
-			hintEn: "Borrow and return",
+			name: "醫療角",
+			en: "Medical",
+			hint: "輻射和身體都要顧",
+			hintEn: "Watch radiation and the body",
 			shape: "cube",
 			top: "#f2d48a",
 			left: "#8a6a2e",
@@ -392,10 +392,10 @@
 		},
 		{
 			id: "journal",
-			name: "天和閱讀角",
-			en: "Tianhe Nook",
-			hint: "核心艙裡的讀書位",
-			hintEn: "A reading spot in the core",
+			name: "生活艙",
+			en: "Habitat",
+			hint: "睡覺、吃飯、調適心情",
+			hintEn: "Sleep, eat, stay steady",
 			shape: "cube",
 			top: "#ff8b7a",
 			left: "#8a3028",
@@ -416,10 +416,10 @@
 		},
 		{
 			id: "beidou",
-			name: "觀測角",
-			en: "Lookout",
-			hint: "像天韻相機看地球",
-			hintEn: "Look down like MUSICO",
+			name: "實驗艙",
+			en: "Lab",
+			hint: "天宮的問天和夢天",
+			hintEn: "Wentian and Mengtian",
 			shape: "dish",
 			top: "#7ef0ff",
 			left: "#0e5870",
@@ -452,10 +452,10 @@
 		},
 		{
 			id: "pulse",
-			name: "水族箱",
-			en: "Aquarium",
-			hint: "斑馬魚和植物同住",
-			hintEn: "Fish and plants together",
+			name: "循環艙",
+			en: "Recycle",
+			hint: "水和廢物要循環",
+			hintEn: "Cycle water and waste",
 			shape: "orb",
 			top: "#7decc4",
 			left: "#0e6b58",
@@ -579,17 +579,49 @@
 		20
 	];
 	const BRING_IDS = [
-		"shelf",
-		"comic",
-		"classic",
-		"bunk",
+		"journal",
+		"beidou",
 		"plant",
+		"dish",
+		"desk",
+		"bunk",
 		"pulse",
-		"audio",
-		"atlas",
-		"holo",
-		"orbit"
+		"shelf"
 	];
+	const READS = {
+		journal: {
+			book: "書：航天員傳記，寫生活艙裡的一天",
+			bookEn: "Book: an astronaut biography, one day in the habitat"
+		},
+		beidou: {
+			book: "書：太空實驗科普。天宮真的有實驗艙",
+			bookEn: "Book: space-lab science. Tiangong really has labs"
+		},
+		plant: {
+			book: "書：《火星救援》The Martian，自己種糧食",
+			bookEn: "Book: The Martian, growing food"
+		},
+		dish: {
+			book: "書：地面控制中心的任務故事",
+			bookEn: "Book: stories from mission control"
+		},
+		desk: {
+			book: "書：太空醫學，輻射和身體",
+			bookEn: "Book: space medicine, radiation and the body"
+		},
+		bunk: {
+			book: "書：失重與人體。天宮每天運動兩小時",
+			bookEn: "Book: the body in weightlessness. Two hours of exercise"
+		},
+		pulse: {
+			book: "書：《火星救援》的水循環，《太空移民》的封閉系統",
+			bookEn: "Book: water in The Martian, closed systems in space-settlement books"
+		},
+		shelf: {
+			book: "如果太空站有圖書館：書幫人撐過封閉的日子",
+			bookEn: "If the station had a library: books steady a closed life"
+		}
+	};
 	function stationGrid() {
 		const grid = emptyGrid();
 		grid[11] = ["gate"];
@@ -626,16 +658,16 @@
 	}
 	const THOUGHTS = [
 		{
-			zh: "天和是家，所以要有一個讀書角。",
-			en: "Tianhe is home, so it needs a reading nook."
+			zh: "生活艙要有書，人才住得下去。",
+			en: "A habitat needs books if people are to live there."
 		},
 		{
-			zh: "窗邊可以讀書，再出去看地球。",
-			en: "Read by the window, then go out and see Earth."
+			zh: "溫室和循環艙，小說裡早就寫過。",
+			en: "Greenhouses and recycling are already in the novels."
 		},
 		{
-			zh: "水族箱旁邊，放一本觀察筆記。",
-			en: "Keep an observation notebook by the aquarium."
+			zh: "如果太空站有圖書館，我想帶一本去。",
+			en: "If the station had a library, I would bring a book."
 		}
 	];
 	const STORAGE_KEY = "space-library-designs-v2";
@@ -1595,8 +1627,8 @@
   <div id="brief" class="veil">
     <div class="card">
       <p class="kicker">看完展覽再建造 See the display first</p>
-      <h2>你會帶什麼？<span>What would you bring?</span></h2>
-      <p>如果讓你帶一樣東西上天宮，你會帶什麼？點一下，它會飛到空間站上。最多三樣。拖動畫面可以看周圍。<span class="en">Tap one thing. It lands on the station. Three at most. Drag to look around.</span></p>
+      <h2>太空站要有什麼？<span>What does a station need?</span></h2>
+      <p>生活艙、實驗艙、溫室、通訊、醫療、運動、循環，也可以有圖書館。點一個飛上站，旁邊會寫哪本書提過它。最多三樣。<span class="en">Tap a module. A book title appears with it. Three at most.</span></p>
       <button id="start" class="gold" type="button">選一件帶上去<span>Pick one</span></button>
     </div>
   </div>
@@ -1731,7 +1763,9 @@
 			document.getElementById("trait-en").textContent = trait.titleEn;
 			document.getElementById("trait-body").textContent = trait.body;
 			document.getElementById("trait-body-en").textContent = trait.bodyEn;
-			document.getElementById("trait-read").textContent = trait.read;
+			const counts = guestCounts(cellsRef.current);
+			const books = BRING_IDS.filter((id) => counts[id] > 0 && READS[id]).map((id) => `${BLOCK_MAP[id].name}：${READS[id].book}`).join(" ");
+			document.getElementById("trait-read").textContent = books || trait.read;
 			document.getElementById("trait-read-en").textContent = trait.readEn;
 			renderCloud(document.getElementById("done-cloud"));
 		}
@@ -1786,7 +1820,8 @@
 		const spot = worldOf(slot, rotRef.current);
 		spawnBurst(particles, spot.x, spot.y - 40, BLOCK_MAP[id].top);
 		tone(640);
-		toast(`${BLOCK_MAP[id].name}飛上空間站了。 ${BLOCK_MAP[id].en} is aboard.`);
+		const read = READS[id];
+		toast(`${BLOCK_MAP[id].name}飛上空間站了。${read ? read.book : ""}`);
 		renderHud();
 	}
 	palette.addEventListener("click", (event) => {
