@@ -463,121 +463,6 @@
 			ink: "#042820"
 		}
 	].map((block) => [block.id, block]));
-	const TRAITS = {
-		archive: {
-			id: "archive",
-			title: "藏書型圖書館",
-			titleEn: "Collection Library",
-			body: "書架是這座艙段的主角。書被放在伸手可及的地方，知識不會在太空裡散掉。",
-			bodyEn: "Shelves lead this module. Books stay within reach, so knowledge does not drift away.",
-			read: "延伸閱讀：航天員傳記、太空站生活紀錄。看完展覽，去書車借一本真正的書。",
-			readEn: "Try next: astronaut biographies and life aboard a station. After the display, borrow a real book."
-		},
-		quiet: {
-			id: "quiet",
-			title: "沉浸閱讀型",
-			titleEn: "Quiet Reading",
-			body: "你留了很多安靜的位置。在封閉的太空站裡，一個人讀書，是最好的休息。",
-			bodyEn: "You kept many quiet spots. Alone with a book is the best rest on a closed station.",
-			read: "延伸閱讀：長篇小說、散文。適合在靜音艙慢慢看完的書。",
-			readEn: "Try next: novels and essays, the kind you finish slowly in a quiet pod."
-		},
-		digital: {
-			id: "digital",
-			title: "數位圖書館",
-			titleEn: "Digital Library",
-			body: "電子書牆最多。艙位有限，螢幕把整座館藏帶上了軌道。",
-			bodyEn: "Screens lead the deck. Space is tight, so the collection rides along on a wall of light.",
-			read: "延伸閱讀：電子書、資料庫裡的航天科普。實體書車仍有精選可以翻。",
-			readEn: "Try next: e-books and space science in the database. The book cart still has print copies."
-		},
-		green: {
-			id: "green",
-			title: "綠意療癒型",
-			titleEn: "Green Retreat",
-			body: "植物角讓圖書館也負責製造氧氣和心情。讀書的地方，同時是可以喘口氣的地方。",
-			bodyEn: "Plants give the library oxygen and a mood. A reading place is also a place to breathe.",
-			read: "延伸閱讀：太空農業、植物圖鑑。看看地球上的綠，如何搬進艙裡。",
-			readEn: "Try next: space farming and plant guides. See how Earth's green moves into a cabin."
-		},
-		sky: {
-			id: "sky",
-			title: "觀星靈感型",
-			titleEn: "Stargazer",
-			body: "窗和星圖把外面的宇宙帶進閱讀角落。書頁和星空放在一起。",
-			bodyEn: "Windows and star charts bring the universe into the reading corner.",
-			read: "延伸閱讀：天文圖鑑、科幻小說。從展覽裡的軌道，讀到故事裡的航線。",
-			readEn: "Try next: astronomy guides and science fiction. From the display's orbit into a story."
-		},
-		social: {
-			id: "social",
-			title: "共讀社群型",
-			titleEn: "Reading Crew",
-			body: "共讀桌是中心。這座圖書館不是只給一個人，而是給整個乘組一起討論。",
-			bodyEn: "The shared table is the center. This library is for the whole crew, not one reader.",
-			read: "延伸閱讀：適合小組共讀的科普和小說。讀完可以講給旁邊的人聽。",
-			readEn: "Try next: science books and novels a group can read, then tell the person beside you."
-		},
-		service: {
-			id: "service",
-			title: "借還服務型",
-			titleEn: "Lending Desk",
-			body: "借還台很顯眼。你在意的是書怎麼交到人手上，而不只是把它們放好。",
-			bodyEn: "The lending desk stands out. You care how a book reaches a person, not only where it sits.",
-			read: "延伸閱讀：從書車借一本書離開。圖書館的最後一步，永遠是借出去。",
-			readEn: "Try next: borrow one book from the cart before you leave. A library ends when a book goes out."
-		},
-		guard: {
-			id: "guard",
-			title: "天宮生活型",
-			titleEn: "Life on Tiangong",
-			body: "你把閱讀角、日記、觀測窗、水族箱放進了圖書館。天宮不只是機器，也是可以讀書的家。",
-			bodyEn: "You added a nook, a diary, a lookout or an aquarium. Tiangong is not only machines. It can be a home for reading.",
-			read: "去書車借一本航天員生活或太空實驗的書，下一組可以讀你留下的那一句。",
-			readEn: "Borrow a book about life in space or a space experiment. The next group can read the line you left."
-		}
-	};
-	function emptyCounts() {
-		return {
-			shelf: 0,
-			comic: 0,
-			seat: 0,
-			bunk: 0,
-			screen: 0,
-			holo: 0,
-			audio: 0,
-			plant: 0,
-			seed: 0,
-			window: 0,
-			scope: 0,
-			table: 0,
-			stage: 0,
-			quiet: 0,
-			atlas: 0,
-			desk: 0,
-			gate: 0,
-			gem: 0,
-			lantern: 0,
-			bridge: 0,
-			meteor: 0,
-			dish: 0,
-			ring: 0,
-			journal: 0,
-			classic: 0,
-			beidou: 0,
-			fact: 0,
-			orbit: 0,
-			pulse: 0
-		};
-	}
-	function emptyGrid() {
-		return Array.from({ length: 64 }, () => []);
-	}
-	const GUEST_SLOTS = [
-		27,
-		35,
-		20
-	];
 	const BRING_IDS = [
 		"journal",
 		"beidou",
@@ -622,1343 +507,634 @@
 			bookEn: "If the station had a library: books steady a closed life"
 		}
 	};
-	function stationGrid() {
-		const grid = emptyGrid();
-		grid[11] = ["gate"];
-		grid[52] = ["window"];
-		grid[42] = ["seed"];
-		grid[22] = ["quiet"];
-		return grid;
-	}
-	function guestCounts(grid) {
-		const counts = emptyCounts();
-		for (const index of GUEST_SLOTS) for (const id of grid[index] ?? []) counts[id] += 1;
-		return counts;
-	}
-	function nextGuestSlot(grid) {
-		return GUEST_SLOTS.find((index) => (grid[index]?.length ?? 0) < 1) ?? null;
-	}
-	function cloneGrid(grid) {
-		return grid.map((stack) => stack.slice());
-	}
-	function analyze(counts) {
-		const scores = {
-			archive: counts.shelf * 3 + counts.comic * 2 + counts.ring * 2,
-			quiet: counts.seat + counts.bunk * 2 + counts.quiet * 3 + counts.lantern * 2,
-			digital: counts.screen * 3 + counts.holo * 2 + counts.audio * 2,
-			green: counts.plant * 3 + counts.seed * 2,
-			sky: counts.window + counts.scope * 2 + counts.atlas * 3 + counts.gem * 2 + counts.dish * 2 + counts.meteor,
-			social: counts.table * 3 + counts.stage * 2 + counts.bridge * 2,
-			service: counts.desk * 3 + counts.gate * 2,
-			guard: counts.beidou * 3 + counts.classic * 3 + counts.fact * 3 + counts.journal * 2 + counts.orbit * 3 + counts.pulse * 2
-		};
-		let best = "archive";
-		for (const id of Object.keys(scores)) if (scores[id] > scores[best]) best = id;
-		return TRAITS[best];
-	}
-	const THOUGHTS = [
-		{
-			zh: "生活艙要有書，人才住得下去。",
-			en: "A habitat needs books if people are to live there."
-		},
-		{
-			zh: "溫室和循環艙，小說裡早就寫過。",
-			en: "Greenhouses and recycling are already in the novels."
-		},
-		{
-			zh: "如果太空站有圖書館，我想帶一本去。",
-			en: "If the station had a library, I would bring a book."
-		}
-	];
-	const STORAGE_KEY = "space-library-designs-v2";
-	function asStack(cell) {
-		if (cell == null) return [];
-		if (typeof cell === "string") return [cell];
-		if (Array.isArray(cell)) return cell.filter((id) => typeof id === "string").slice(0, 2);
-		return [];
-	}
-	function loadDesigns() {
-		if (typeof localStorage === "undefined") return [];
-		try {
-			const raw = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem("space-library-designs-v1");
-			if (!raw) return [];
-			const parsed = JSON.parse(raw);
-			if (!Array.isArray(parsed)) return [];
-			return parsed.flatMap((item) => {
-				if (!Array.isArray(item.cells) || item.cells.length !== 64) return [];
-				return [{
-					...item,
-					cells: item.cells.map(asStack)
-				}];
-			});
-		} catch {
-			return [];
-		}
-	}
-	function storeDesigns(designs) {
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(designs.slice(0, 12)));
-	}
-	const HW = 40;
-	const HH = 20;
-	function toView(x, y, rot) {
-		switch (rot & 3) {
-			case 1: return [y, 7 - x];
-			case 2: return [7 - x, 7 - y];
-			case 3: return [7 - y, x];
-			default: return [x, y];
-		}
-	}
-	function project(vx, vy) {
+	//#endregion
+	//#region src/game/walk.ts
+	const BAYS = BRING_IDS.map((id, index) => {
+		const block = BLOCK_MAP[id];
+		const read = READS[id];
 		return {
-			x: (vx - vy) * HW,
-			y: (vx + vy) * HH
+			id,
+			name: block.name,
+			en: block.en,
+			hint: block.hint,
+			hintEn: block.hintEn,
+			book: read?.book ?? "",
+			bookEn: read?.bookEn ?? "",
+			color: block.top,
+			z: 5 + index * 4.4,
+			side: index % 2 === 0 ? 1 : -1
 		};
-	}
-	function worldOf(index, rot) {
-		const [vx, vy] = toView(index % 8, Math.floor(index / 8), rot);
-		return project(vx, vy);
-	}
-	function layout(w, h) {
-		const scale = Math.min((w - 16) / 560, (h - 24) / 506, 1.7);
+	});
+	const END_Z = BAYS[BAYS.length - 1].z + 6.5;
+	const WALL = 1.72;
+	const FLOOR = 1.2;
+	const CEIL = -1.28;
+	const FOCAL = 560;
+	function project(x, y, z, cam) {
+		const dz0 = z - cam.z;
+		const cos = Math.cos(cam.yaw);
+		const sin = Math.sin(cam.yaw);
+		const dx = x * cos - dz0 * sin;
+		const dz = x * sin + dz0 * cos;
+		if (dz < .22) return null;
+		const s = FOCAL / dz;
 		return {
-			scale: Math.max(scale, .35),
-			cx: 0,
-			cy: 75
+			x: cam.w / 2 + dx * s,
+			y: cam.h * .46 + y * s,
+			dz
 		};
 	}
-	function diamond(sx, sy) {
-		return [
-			{
-				x: sx,
-				y: sy - HH
-			},
-			{
-				x: sx + HW,
-				y: sy
-			},
-			{
-				x: sx,
-				y: sy + HH
-			},
-			{
-				x: sx - HW,
-				y: sy
+	function fog(hex, dz, glow = 0) {
+		const n = Number.parseInt(hex.slice(1), 16);
+		const r = n >> 16 & 255;
+		const g = n >> 8 & 255;
+		const b = n & 255;
+		const t = Math.max(0, Math.min(.86, (dz - 3) / 26));
+		const lift = glow;
+		const mix = (c, fogC) => Math.max(0, Math.min(255, Math.round(c * (1 - t) + fogC * t + lift)));
+		return `rgb(${mix(r, 6)},${mix(g, 22)},${mix(b, 48)})`;
+	}
+	function quad(ctx, cam, pts, color, glow = 0) {
+		const proj = pts.map(([x, y, z]) => project(x, y, z, cam));
+		if (proj.some((p) => !p)) return null;
+		const ok = proj;
+		const dz = ok.reduce((sum, p) => sum + p.dz, 0) / ok.length;
+		return {
+			dz,
+			draw() {
+				ctx.beginPath();
+				ctx.moveTo(ok[0].x, ok[0].y);
+				for (let i = 1; i < ok.length; i += 1) ctx.lineTo(ok[i].x, ok[i].y);
+				ctx.closePath();
+				ctx.fillStyle = fog(color, dz, glow);
+				ctx.fill();
 			}
-		];
+		};
 	}
-	function silhouette(sx, sy, levels = 1) {
-		const zh = 40 * levels;
-		return [
-			{
-				x: sx,
-				y: sy - HH - zh
-			},
-			{
-				x: sx + HW,
-				y: sy - zh
-			},
-			{
-				x: sx + HW,
-				y: sy
-			},
-			{
-				x: sx,
-				y: sy + HH
-			},
-			{
-				x: sx - HW,
-				y: sy
-			},
-			{
-				x: sx - HW,
-				y: sy - zh
+	function nearestBay(z) {
+		let best = null;
+		let dist = 2.15;
+		for (const bay of BAYS) {
+			const gap = Math.abs(bay.z - z);
+			if (gap < dist) {
+				dist = gap;
+				best = bay;
 			}
-		];
-	}
-	function fromViewX(vx, vy, rot) {
-		switch (rot & 3) {
-			case 1: return 7 - vy;
-			case 2: return 7 - vx;
-			case 3: return vy;
-			default: return vx;
 		}
+		return best;
 	}
-	function fromViewY(vx, vy, rot) {
-		switch (rot & 3) {
-			case 1: return vx;
-			case 2: return 7 - vy;
-			case 3: return 7 - vx;
-			default: return vy;
-		}
+	function clampWalk(z) {
+		return Math.max(.6, Math.min(END_Z - 1.4, z));
 	}
-	const STARS = Array.from({ length: 90 }, () => ({
-		x: Math.random(),
-		y: Math.random(),
-		r: Math.random() * 1.4 + .4,
-		p: Math.random() * Math.PI * 2,
-		s: .6 + Math.random() * 1.4
-	}));
-	function drawSky(ctx, w, h, now) {
-		const sky = ctx.createLinearGradient(0, 0, w, h);
-		sky.addColorStop(0, "#6eb6f2");
-		sky.addColorStop(.4, "#1d62b8");
-		sky.addColorStop(1, "#0a3270");
+	function drawCorridor(ctx, w, h, z, yaw, opened, now) {
+		const cam = {
+			z,
+			yaw,
+			w,
+			h
+		};
+		const sky = ctx.createLinearGradient(0, 0, 0, h);
+		sky.addColorStop(0, "#071428");
+		sky.addColorStop(.45, "#12386a");
+		sky.addColorStop(1, "#071018");
 		ctx.fillStyle = sky;
 		ctx.fillRect(0, 0, w, h);
-		ctx.save();
-		ctx.strokeStyle = "rgba(185,230,255,0.22)";
-		ctx.lineWidth = 1;
-		for (let x = 0; x < w; x += 48) {
-			ctx.beginPath();
-			ctx.moveTo(x, 0);
-			ctx.lineTo(x, h);
-			ctx.stroke();
+		for (let i = 0; i < 40; i += 1) {
+			const sx = (i * 97 + now * .01) % w;
+			const sy = i * 53 % (h * .42);
+			ctx.fillStyle = `rgba(255,255,255,${.25 + i % 5 * .1})`;
+			ctx.fillRect(sx, sy, i % 4 === 0 ? 2 : 1.2, i % 4 === 0 ? 2 : 1.2);
 		}
-		for (let y = 0; y < h; y += 48) {
-			ctx.beginPath();
-			ctx.moveTo(0, y);
-			ctx.lineTo(w, y);
-			ctx.stroke();
+		const faces = [];
+		const push = (face) => {
+			if (face) faces.push(face);
+		};
+		const paintSpan = (z0, z1, stripe) => {
+			push(quad(ctx, cam, [
+				[
+					-1.72,
+					FLOOR,
+					z0
+				],
+				[
+					WALL,
+					FLOOR,
+					z0
+				],
+				[
+					WALL,
+					FLOOR,
+					z1
+				],
+				[
+					-1.72,
+					FLOOR,
+					z1
+				]
+			], stripe % 2 ? "#0c3158" : "#123e6c"));
+			push(quad(ctx, cam, [
+				[
+					-1.72,
+					CEIL,
+					z0
+				],
+				[
+					-.28,
+					CEIL,
+					z0
+				],
+				[
+					-.28,
+					CEIL,
+					z1
+				],
+				[
+					-1.72,
+					CEIL,
+					z1
+				]
+			], "#102848"));
+			push(quad(ctx, cam, [
+				[
+					.28,
+					CEIL,
+					z0
+				],
+				[
+					WALL,
+					CEIL,
+					z0
+				],
+				[
+					WALL,
+					CEIL,
+					z1
+				],
+				[
+					.28,
+					CEIL,
+					z1
+				]
+			], "#102848"));
+			push(quad(ctx, cam, [
+				[
+					-1.72,
+					CEIL,
+					z0
+				],
+				[
+					-1.72,
+					FLOOR,
+					z0
+				],
+				[
+					-1.72,
+					FLOOR,
+					z1
+				],
+				[
+					-1.72,
+					CEIL,
+					z1
+				]
+			], "#164678"));
+			push(quad(ctx, cam, [
+				[
+					WALL,
+					CEIL,
+					z0
+				],
+				[
+					WALL,
+					FLOOR,
+					z0
+				],
+				[
+					WALL,
+					FLOOR,
+					z1
+				],
+				[
+					WALL,
+					CEIL,
+					z1
+				]
+			], "#1c5894"));
+			push(quad(ctx, cam, [
+				[
+					-.22,
+					-1.26,
+					z0
+				],
+				[
+					.22,
+					-1.26,
+					z0
+				],
+				[
+					.22,
+					-1.26,
+					z1
+				],
+				[
+					-.22,
+					-1.26,
+					z1
+				]
+			], "#d7f4ff", 30));
+		};
+		const first = Math.floor(z + .35) + 1;
+		paintSpan(z + .28, Math.min(first, END_Z), first);
+		for (let iz = first; iz < END_Z; iz += 1) paintSpan(iz, Math.min(iz + 1, END_Z), iz);
+		for (let iz = Math.ceil(z); iz <= END_Z; iz += 4) {
+			push(quad(ctx, cam, [
+				[
+					-1.72,
+					CEIL,
+					iz
+				],
+				[
+					WALL,
+					CEIL,
+					iz
+				],
+				[
+					WALL,
+					CEIL,
+					iz + .08
+				],
+				[
+					-1.72,
+					CEIL,
+					iz + .08
+				]
+			], "#9fd6ff", 18));
+			push(quad(ctx, cam, [
+				[
+					-1.72,
+					1.18,
+					iz
+				],
+				[
+					WALL,
+					1.18,
+					iz
+				],
+				[
+					WALL,
+					1.18,
+					iz + .08
+				],
+				[
+					-1.72,
+					1.18,
+					iz + .08
+				]
+			], "#7ad0ff", 10));
 		}
-		ctx.restore();
-		const nebula = ctx.createRadialGradient(w * .2, h * .3, 10, w * .2, h * .3, w * .45);
-		nebula.addColorStop(0, "rgba(255,255,255,0.28)");
-		nebula.addColorStop(1, "rgba(143,208,255,0)");
-		ctx.fillStyle = nebula;
-		ctx.fillRect(0, 0, w, h);
-		const gold = ctx.createRadialGradient(w * .72, h * .78, 8, w * .72, h * .78, w * .32);
-		gold.addColorStop(0, "rgba(255,214,102,0.45)");
-		gold.addColorStop(1, "rgba(230,184,74,0)");
-		ctx.fillStyle = gold;
-		ctx.fillRect(0, 0, w, h);
-		drawEarth(ctx, w, h, now);
-		drawAurora(ctx, w, h, now);
-		drawDriftingBooks(ctx, w, h, now);
-		for (const star of STARS) {
-			const tw = .35 + .65 * (.5 + .5 * Math.sin(now * .001 * star.s + star.p));
-			ctx.globalAlpha = tw * .45;
-			ctx.fillStyle = "#ffffff";
+		for (const bay of BAYS) {
+			const x = bay.side * 1.68;
+			const inset = bay.side * 1.44;
+			const y0 = -.72;
+			const y1 = .92;
+			const z0 = bay.z - .62;
+			const z1 = bay.z + .62;
+			const on = opened.has(bay.id);
+			push(quad(ctx, cam, [
+				[
+					x,
+					-.7999999999999999,
+					z0 - .08
+				],
+				[
+					x,
+					-.7999999999999999,
+					z1 + .08
+				],
+				[
+					x,
+					1,
+					z1 + .08
+				],
+				[
+					x,
+					1,
+					z0 - .08
+				]
+			], "#f0b429", on ? 40 : 16));
+			push(quad(ctx, cam, [
+				[
+					inset,
+					y0,
+					z0
+				],
+				[
+					inset,
+					y0,
+					z1
+				],
+				[
+					inset,
+					y1,
+					z1
+				],
+				[
+					inset,
+					y1,
+					z0
+				]
+			], on ? "#fff4c8" : bay.color, on ? 36 : 12));
+			push(quad(ctx, cam, [
+				[
+					x,
+					y0,
+					z0
+				],
+				[
+					inset,
+					y0,
+					z0
+				],
+				[
+					inset,
+					y1,
+					z0
+				],
+				[
+					x,
+					y1,
+					z0
+				]
+			], "#0d3a68"));
+			push(quad(ctx, cam, [
+				[
+					x,
+					y0,
+					z1
+				],
+				[
+					inset,
+					y0,
+					z1
+				],
+				[
+					inset,
+					y1,
+					z1
+				],
+				[
+					x,
+					y1,
+					z1
+				]
+			], "#0a2c50"));
+		}
+		const end = END_Z;
+		push(quad(ctx, cam, [
+			[
+				-1.72,
+				CEIL,
+				end
+			],
+			[
+				WALL,
+				CEIL,
+				end
+			],
+			[
+				WALL,
+				FLOOR,
+				end
+			],
+			[
+				-1.72,
+				FLOOR,
+				end
+			]
+		], "#081828"));
+		faces.sort((a, b) => b.dz - a.dz);
+		for (const face of faces) face.draw();
+		const earth = project(0, .05, end - .2, cam);
+		if (earth) {
+			const radius = Math.max(8, 78 / earth.dz);
+			const glow = ctx.createRadialGradient(earth.x, earth.y, radius * .2, earth.x, earth.y, radius * 1.6);
+			glow.addColorStop(0, "rgba(140,210,255,0.9)");
+			glow.addColorStop(1, "rgba(140,210,255,0)");
+			ctx.fillStyle = glow;
 			ctx.beginPath();
-			ctx.arc(star.x * w, star.y * h, star.r * 4, 0, Math.PI * 2);
+			ctx.arc(earth.x, earth.y, radius * 1.6, 0, Math.PI * 2);
 			ctx.fill();
-			ctx.globalAlpha = tw;
-			ctx.fillStyle = star.r > 1.3 ? "#fff4c2" : "#ffffff";
+			ctx.fillStyle = "#1f6fe0";
 			ctx.beginPath();
-			ctx.arc(star.x * w, star.y * h, star.r, 0, Math.PI * 2);
+			ctx.arc(earth.x, earth.y, radius, 0, Math.PI * 2);
+			ctx.fill();
+			ctx.fillStyle = "#37c48a";
+			ctx.beginPath();
+			ctx.arc(earth.x - radius * .2, earth.y, radius * .45, 0, Math.PI * 2);
 			ctx.fill();
 		}
-		ctx.globalAlpha = 1;
-	}
-	function drawAurora(ctx, w, h, now) {
-		ctx.save();
-		for (let band = 0; band < 3; band++) {
-			ctx.beginPath();
-			const y0 = h * (.16 + band * .07);
-			ctx.moveTo(0, y0);
-			for (let x = 0; x <= w; x += 20) ctx.lineTo(x, y0 + Math.sin(x * .012 + now * 7e-4 + band) * 16);
-			ctx.lineTo(w, y0 + 40);
-			ctx.lineTo(0, y0 + 40);
-			ctx.closePath();
-			ctx.fillStyle = band === 1 ? "rgba(125,236,196,0.22)" : "rgba(185,230,255,0.18)";
-			ctx.fill();
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		for (const bay of BAYS) {
+			const spot = project(bay.side * 1.15, .05, bay.z, cam);
+			if (!spot || spot.dz > 14) continue;
+			const size = Math.max(13, Math.min(34, 150 / spot.dz));
+			ctx.font = `800 ${size}px "Noto Sans TC", sans-serif`;
+			ctx.fillStyle = "rgba(8,20,40,0.45)";
+			ctx.fillText(bay.name, spot.x + 1, spot.y + 1);
+			ctx.fillStyle = opened.has(bay.id) ? "#fff6cf" : "#f4f8ff";
+			ctx.fillText(bay.name, spot.x, spot.y);
+			ctx.font = `650 ${Math.max(10, size * .42)}px "Noto Sans TC", sans-serif`;
+			ctx.fillStyle = "#d7f1ff";
+			ctx.fillText(bay.en, spot.x, spot.y + size * .62);
 		}
-		ctx.restore();
-	}
-	function drawDriftingBooks(ctx, w, h, now) {
-		ctx.save();
-		for (let i = 0; i < 4; i++) {
-			const x = (now * .03 + i * 220) % (w + 80) - 40;
-			const y = h * (.2 + i % 3 * .16) + Math.sin(now * .0012 + i) * 12;
-			ctx.save();
-			ctx.translate(x, y);
-			ctx.rotate(Math.sin(now * .001 + i) * .35);
-			ctx.globalAlpha = .7;
-			ctx.fillStyle = i % 2 === 0 ? "#f0b429" : "#f7fbff";
-			ctx.fillRect(-8, -10, 16, 20);
-			ctx.fillStyle = "#0e4a86";
-			ctx.fillRect(-5, -6, 10, 2);
-			ctx.fillRect(-5, -2, 7, 2);
-			ctx.restore();
-		}
-		ctx.restore();
-	}
-	function drawEarth(ctx, w, h, now) {
-		const x = w * .84;
-		const y = h * .18;
-		const r = Math.min(w, h) * .18;
-		ctx.save();
-		ctx.beginPath();
-		ctx.arc(x, y, r + 6, 0, Math.PI * 2);
-		ctx.strokeStyle = "rgba(255,255,255,0.9)";
-		ctx.lineWidth = 3;
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.arc(x, y, r, 0, Math.PI * 2);
-		ctx.clip();
-		const ocean = ctx.createLinearGradient(x - r, y - r, x + r, y + r);
-		ocean.addColorStop(0, "#8fd0ff");
-		ocean.addColorStop(.45, "#1d6b8a");
-		ocean.addColorStop(1, "#0d3a58");
-		ctx.fillStyle = ocean;
-		ctx.fillRect(x - r, y - r, r * 2, r * 2);
-		ctx.fillStyle = "rgba(93,204,160,0.85)";
-		ctx.beginPath();
-		ctx.ellipse(x - r * .15, y + r * .05, r * .38, r * .22, -.4, 0, Math.PI * 2);
-		ctx.fill();
-		ctx.beginPath();
-		ctx.arc(x + r * .42, y - r * .05, r * .95, 0, Math.PI * 2);
-		ctx.fillStyle = "#1a4f86";
-		ctx.fill();
-		ctx.restore();
-		const pulse = 6 + (Math.sin(now * .003) + 1) * 4;
-		ctx.beginPath();
-		ctx.arc(x, y, r + pulse, 0, Math.PI * 2);
-		ctx.strokeStyle = "rgba(125,236,196,0.55)";
-		ctx.lineWidth = 2;
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.ellipse(x, y, r + 18, r * .42, -.3, 0, Math.PI * 2);
-		ctx.strokeStyle = "rgba(185,230,255,0.7)";
-		ctx.stroke();
-		const ang = now * 8e-4;
-		ctx.fillStyle = "#fff6c8";
-		ctx.shadowColor = "#fff6c8";
-		ctx.shadowBlur = 12;
-		ctx.beginPath();
-		ctx.arc(x + Math.cos(ang) * (r + 18), y + Math.sin(ang) * r * .42, 3.5, 0, Math.PI * 2);
-		ctx.fill();
-		ctx.shadowBlur = 0;
-		ctx.shadowColor = "transparent";
-	}
-	function trace(ctx, pts) {
-		ctx.beginPath();
-		ctx.moveTo(pts[0].x, pts[0].y);
-		for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
-		ctx.closePath();
-	}
-	function drawFloor(ctx, sx, sy, hot) {
-		const depth = 18;
-		ctx.beginPath();
-		ctx.moveTo(sx - HW, sy);
-		ctx.lineTo(sx, sy + HH);
-		ctx.lineTo(sx, sy + HH + depth);
-		ctx.lineTo(sx - HW, sy + depth);
-		ctx.closePath();
-		ctx.fillStyle = "#1d5ea6";
-		ctx.fill();
-		ctx.beginPath();
-		ctx.moveTo(sx + HW, sy);
-		ctx.lineTo(sx, sy + HH);
-		ctx.lineTo(sx, sy + HH + depth);
-		ctx.lineTo(sx + HW, sy + depth);
-		ctx.closePath();
-		ctx.fillStyle = "#2f78c4";
-		ctx.fill();
-		trace(ctx, diamond(sx, sy));
-		ctx.fillStyle = hot ? "#fff3c4" : (sx + sy) % 2 === 0 ? "#7eb6ea" : "#5c9ad8";
-		ctx.fill();
-		ctx.strokeStyle = hot ? "rgba(224,154,18,0.95)" : "rgba(42,164,255,0.7)";
-		ctx.lineWidth = hot ? 2 : 1.25;
-		ctx.stroke();
-		ctx.fillStyle = hot ? "rgba(255,196,64,0.95)" : "rgba(42,164,255,0.85)";
-		ctx.fillRect(sx - 2, sy - 2, 4, 4);
-	}
-	function drawGlyph(ctx, sx, sy, id, ink) {
-		ctx.save();
-		ctx.translate(sx, sy);
-		ctx.strokeStyle = ink;
-		ctx.fillStyle = ink;
-		ctx.lineWidth = 1.7;
-		ctx.lineCap = "round";
-		ctx.lineJoin = "round";
-		switch (id) {
-			case "shelf":
-				for (let i = 0; i < 4; i++) ctx.fillRect(-9 + i * 5, -7, 3, 14);
-				break;
-			case "seat":
-				ctx.beginPath();
-				ctx.arc(0, 2, 5, 0, Math.PI * 2);
-				ctx.stroke();
-				ctx.fillRect(-7, 6, 14, 2);
-				break;
-			case "screen":
-				ctx.strokeRect(-9, -7, 18, 12);
-				ctx.fillRect(-6, -4, 8, 2);
-				break;
-			case "plant":
-				ctx.beginPath();
-				ctx.moveTo(0, -8);
-				ctx.lineTo(7, 6);
-				ctx.lineTo(-7, 6);
-				ctx.closePath();
-				ctx.fill();
-				break;
-			case "window":
-				ctx.beginPath();
-				ctx.moveTo(0, -8);
-				ctx.lineTo(8, 0);
-				ctx.lineTo(0, 8);
-				ctx.lineTo(-8, 0);
-				ctx.closePath();
-				ctx.stroke();
-				break;
-			case "table":
-				ctx.fillRect(-8, -2, 16, 4);
-				ctx.fillRect(-5, 3, 2, 5);
-				ctx.fillRect(3, 3, 2, 5);
-				break;
-			case "quiet":
-				ctx.beginPath();
-				ctx.arc(0, 0, 6, 0, Math.PI * 2);
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.moveTo(-2, 0);
-				ctx.lineTo(2, 0);
-				ctx.stroke();
-				break;
-			case "atlas":
-				for (const [dx, dy, r] of [
-					[
-						-5,
-						-3,
-						1.4
-					],
-					[
-						4,
-						-4,
-						1.1
-					],
-					[
-						2,
-						4,
-						1.6
-					],
-					[
-						-3,
-						3,
-						1
-					]
-				]) {
-					ctx.beginPath();
-					ctx.arc(dx, dy, r, 0, Math.PI * 2);
-					ctx.fill();
-				}
-				break;
-			case "comic":
-				ctx.fillRect(-8, -8, 5, 16);
-				ctx.fillRect(-1, -6, 5, 14);
-				ctx.fillRect(6, -8, 4, 16);
-				break;
-			case "bunk":
-				ctx.beginPath();
-				ctx.ellipse(0, 2, 9, 4, 0, 0, Math.PI * 2);
-				ctx.stroke();
-				ctx.fillRect(-2, -8, 2, 8);
-				break;
-			case "holo":
-				ctx.strokeRect(-6, -8, 12, 14);
-				ctx.beginPath();
-				ctx.moveTo(0, -8);
-				ctx.lineTo(0, 6);
-				ctx.moveTo(-6, -1);
-				ctx.lineTo(6, -1);
-				ctx.stroke();
-				break;
-			case "audio":
-				ctx.beginPath();
-				ctx.arc(0, 0, 4, 0, Math.PI * 2);
-				ctx.fill();
-				ctx.beginPath();
-				ctx.arc(0, 0, 8, -.8, .8);
-				ctx.stroke();
-				break;
-			case "seed":
-				ctx.beginPath();
-				ctx.ellipse(0, 1, 4, 7, .3, 0, Math.PI * 2);
-				ctx.fill();
-				break;
-			case "scope":
-				ctx.fillRect(-8, -1, 16, 3);
-				ctx.beginPath();
-				ctx.arc(8, 0, 3, 0, Math.PI * 2);
-				ctx.stroke();
-				break;
-			case "stage":
-				ctx.fillRect(-9, 2, 18, 3);
-				ctx.beginPath();
-				ctx.moveTo(0, 2);
-				ctx.lineTo(0, -8);
-				ctx.stroke();
-				break;
-			case "gate":
-				ctx.strokeRect(-7, -8, 14, 16);
-				ctx.beginPath();
-				ctx.arc(0, 0, 3, 0, Math.PI * 2);
-				ctx.stroke();
-				break;
-			case "desk":
-				ctx.strokeRect(-8, -6, 16, 12);
-				ctx.beginPath();
-				ctx.moveTo(-4, -1);
-				ctx.lineTo(-1, 2);
-				ctx.lineTo(5, -3);
-				ctx.stroke();
-				break;
-			case "journal":
-				ctx.strokeRect(-7, -8, 14, 16);
-				ctx.fillRect(-4, -4, 8, 2);
-				ctx.fillRect(-4, 0, 6, 2);
-		}
-		ctx.restore();
-	}
-	function drawCube(ctx, sx, sy, id, alpha, pop, height = 40) {
-		const block = BLOCK_MAP[id];
-		const zh = height * pop;
-		const topY = sy - zh;
-		ctx.save();
-		ctx.globalAlpha = alpha;
-		ctx.beginPath();
-		ctx.ellipse(sx, sy + 6, 18, 7, 0, 0, Math.PI * 2);
-		ctx.fillStyle = "rgba(0,0,0,0.28)";
-		ctx.fill();
-		ctx.beginPath();
-		ctx.moveTo(sx - HW, sy);
-		ctx.lineTo(sx, sy + HH);
-		ctx.lineTo(sx, sy + HH - zh);
-		ctx.lineTo(sx - HW, sy - zh);
-		ctx.closePath();
-		ctx.fillStyle = block.left;
-		ctx.fill();
-		ctx.beginPath();
-		ctx.moveTo(sx + HW, sy);
-		ctx.lineTo(sx, sy + HH);
-		ctx.lineTo(sx, sy + HH - zh);
-		ctx.lineTo(sx + HW, sy - zh);
-		ctx.closePath();
-		ctx.fillStyle = block.right;
-		ctx.fill();
-		ctx.beginPath();
-		ctx.moveTo(sx, topY - HH);
-		ctx.lineTo(sx + HW, topY);
-		ctx.lineTo(sx, topY + HH);
-		ctx.lineTo(sx - HW, topY);
-		ctx.closePath();
-		ctx.fillStyle = block.top;
-		ctx.fill();
-		ctx.strokeStyle = "rgba(255,255,255,0.28)";
-		ctx.lineWidth = 1;
-		ctx.stroke();
-		drawGlyph(ctx, sx, topY - 1, id, block.ink);
-		ctx.restore();
-	}
-	function popScale(now, started, reduced) {
-		if (reduced || started === void 0) return 1;
-		const t = (now - started) / 220;
-		if (t >= 1) return 1;
-		return .72 + .28 * (1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3));
-	}
-	function drawPiece(ctx, sx, sy, id, alpha, pop) {
-		const block = BLOCK_MAP[id];
-		ctx.save();
-		ctx.globalAlpha = alpha * .8;
-		ctx.fillStyle = block.top;
-		ctx.beginPath();
-		ctx.ellipse(sx, sy + 4, 38, 16, 0, 0, Math.PI * 2);
-		ctx.fill();
-		ctx.globalAlpha = alpha * .95;
-		ctx.fillStyle = "#ffffff";
-		ctx.beginPath();
-		ctx.ellipse(sx, sy - 8, 12, 5, 0, 0, Math.PI * 2);
-		ctx.fill();
-		ctx.restore();
-		if (block.shape === "cube") {
-			drawCube(ctx, sx, sy, id, alpha, pop, id === "desk" ? 26 : 40);
-			return;
-		}
-		if (block.shape === "screen") {
-			drawCube(ctx, sx, sy, id, alpha, pop, 58);
-			return;
-		}
-		ctx.save();
-		ctx.globalAlpha = alpha;
-		ctx.translate(sx, sy);
-		ctx.scale(1, pop);
-		ctx.beginPath();
-		ctx.ellipse(0, 6, 16, 6, 0, 0, Math.PI * 2);
-		ctx.fillStyle = "rgba(0,0,0,0.28)";
-		ctx.fill();
-		const { top, left, right, ink } = block;
-		switch (block.shape) {
-			case "rack":
-				ctx.beginPath();
-				ctx.moveTo(-20, 2);
-				ctx.lineTo(18, 2);
-				ctx.lineTo(18, -30);
-				ctx.lineTo(-20, -8);
-				ctx.closePath();
-				ctx.fillStyle = left;
-				ctx.fill();
-				ctx.fillStyle = ink;
-				for (let i = 0; i < 4; i++) ctx.fillRect(-14 + i * 8, -18 + i, 4, 16 - i);
-				break;
-			case "chair":
-				ctx.fillStyle = left;
-				ctx.fillRect(-12, -8, 24, 8);
-				ctx.fillStyle = right;
-				ctx.fillRect(-10, -30, 6, 24);
-				ctx.fillStyle = top;
-				ctx.beginPath();
-				ctx.ellipse(2, -10, 12, 5, 0, 0, Math.PI * 2);
-				ctx.fill();
-				break;
-			case "hammock":
-				ctx.fillStyle = ink;
-				ctx.fillRect(-18, -40, 4, 40);
-				ctx.fillRect(14, -40, 4, 40);
-				ctx.strokeStyle = top;
-				ctx.lineWidth = 5;
-				ctx.beginPath();
-				ctx.moveTo(-16, -30);
-				ctx.quadraticCurveTo(0, 2, 16, -30);
-				ctx.stroke();
-				ctx.fillStyle = right;
-				ctx.beginPath();
-				ctx.ellipse(0, -16, 8, 4, 0, 0, Math.PI * 2);
-				ctx.fill();
-				break;
-			case "crystal":
-				ctx.beginPath();
-				ctx.moveTo(0, -64);
-				ctx.lineTo(-18, -18);
-				ctx.lineTo(0, 4);
-				ctx.closePath();
-				ctx.fillStyle = left;
-				ctx.fill();
-				ctx.beginPath();
-				ctx.moveTo(0, -64);
-				ctx.lineTo(18, -18);
-				ctx.lineTo(0, 4);
-				ctx.closePath();
-				ctx.fillStyle = right;
-				ctx.fill();
-				ctx.beginPath();
-				ctx.moveTo(0, -64);
-				ctx.lineTo(8, -16);
-				ctx.lineTo(0, 4);
-				ctx.lineTo(-8, -16);
-				ctx.closePath();
-				ctx.fillStyle = top;
-				ctx.fill();
-				break;
-			case "pillar":
-				ctx.beginPath();
-				ctx.ellipse(0, -40, 12, 6, 0, 0, Math.PI * 2);
-				ctx.fillStyle = top;
-				ctx.fill();
-				ctx.beginPath();
-				ctx.moveTo(-12, -40);
-				ctx.lineTo(-12, 0);
-				ctx.quadraticCurveTo(0, 8, 12, 0);
-				ctx.lineTo(12, -40);
-				ctx.closePath();
-				ctx.fillStyle = left;
-				ctx.fill();
-				ctx.fillStyle = right;
-				ctx.fillRect(-3, -28, 6, 6);
-				break;
-			case "tree":
-				ctx.fillStyle = "#6b4428";
-				ctx.fillRect(-3, -18, 6, 20);
-				ctx.fillStyle = left;
-				ctx.beginPath();
-				ctx.arc(-8, -24, 11, 0, Math.PI * 2);
-				ctx.fill();
-				ctx.fillStyle = right;
-				ctx.beginPath();
-				ctx.arc(9, -22, 10, 0, Math.PI * 2);
-				ctx.fill();
-				ctx.fillStyle = top;
-				ctx.beginPath();
-				ctx.arc(0, -34, 13, 0, Math.PI * 2);
-				ctx.fill();
-				break;
-			case "dome":
-				ctx.beginPath();
-				ctx.ellipse(0, 0, 20, 8, 0, 0, Math.PI * 2);
-				ctx.fillStyle = left;
-				ctx.fill();
-				ctx.beginPath();
-				ctx.moveTo(-18, -2);
-				ctx.quadraticCurveTo(0, -46, 18, -2);
-				ctx.quadraticCurveTo(0, 8, -18, -2);
-				ctx.fillStyle = top;
-				ctx.fill();
-				ctx.strokeStyle = "rgba(255,255,255,0.35)";
-				ctx.stroke();
-				break;
-			case "arch":
-			case "bridge":
-				ctx.fillStyle = left;
-				ctx.fillRect(-20, -26, 8, 28);
-				ctx.fillStyle = right;
-				ctx.fillRect(12, -26, 8, 28);
-				ctx.strokeStyle = top;
-				ctx.lineWidth = block.shape === "bridge" ? 8 : 6;
-				ctx.lineCap = "round";
-				ctx.beginPath();
-				ctx.moveTo(-16, -24);
-				ctx.quadraticCurveTo(0, block.shape === "bridge" ? -58 : -52, 16, -24);
-				ctx.stroke();
-				if (block.shape === "bridge") {
-					ctx.fillStyle = ink;
-					for (let i = -1; i <= 1; i++) ctx.fillRect(i * 8 - 2, -40, 4, 7);
-				}
-				break;
-			case "scope":
-				ctx.strokeStyle = ink;
-				ctx.lineWidth = 2;
-				ctx.beginPath();
-				ctx.moveTo(0, 2);
-				ctx.lineTo(-12, -4);
-				ctx.moveTo(0, 2);
-				ctx.lineTo(12, -4);
-				ctx.stroke();
-				ctx.save();
-				ctx.rotate(-.55);
-				ctx.fillStyle = left;
-				ctx.fillRect(0, -6, 30, 8);
-				ctx.fillStyle = top;
-				ctx.beginPath();
-				ctx.arc(30, -2, 6, 0, Math.PI * 2);
-				ctx.fill();
-				ctx.restore();
-				break;
-			case "slab":
-				ctx.beginPath();
-				ctx.moveTo(0, -16);
-				ctx.lineTo(24, -6);
-				ctx.lineTo(0, 4);
-				ctx.lineTo(-24, -6);
-				ctx.closePath();
-				ctx.fillStyle = top;
-				ctx.fill();
-				ctx.beginPath();
-				ctx.moveTo(-24, -6);
-				ctx.lineTo(0, 4);
-				ctx.lineTo(0, 12);
-				ctx.lineTo(-24, 2);
-				ctx.closePath();
-				ctx.fillStyle = left;
-				ctx.fill();
-				ctx.beginPath();
-				ctx.moveTo(24, -6);
-				ctx.lineTo(0, 4);
-				ctx.lineTo(0, 12);
-				ctx.lineTo(24, 2);
-				ctx.closePath();
-				ctx.fillStyle = right;
-				ctx.fill();
-				break;
-			case "stage":
-				ctx.fillStyle = left;
-				ctx.fillRect(-16, -6, 32, 8);
-				ctx.fillStyle = top;
-				ctx.fillRect(-14, -10, 28, 6);
-				ctx.fillStyle = ink;
-				ctx.fillRect(10, -28, 3, 20);
-				ctx.beginPath();
-				ctx.moveTo(11, -28);
-				ctx.lineTo(22, -18);
-				ctx.lineTo(11, -16);
-				ctx.closePath();
-				ctx.fillStyle = top;
-				ctx.fill();
-				break;
-			case "orb":
-				ctx.fillStyle = ink;
-				ctx.fillRect(-2, -8, 4, 10);
-				ctx.fillStyle = left;
-				ctx.beginPath();
-				ctx.ellipse(0, -6, 10, 4, 0, 0, Math.PI * 2);
-				ctx.fill();
-				ctx.beginPath();
-				ctx.arc(0, -22, 14, 0, Math.PI * 2);
-				ctx.fillStyle = top;
-				ctx.fill();
-				ctx.fillStyle = right;
-				ctx.beginPath();
-				ctx.arc(-4, -26, 5, 0, Math.PI * 2);
-				ctx.fill();
-				break;
-			case "lantern":
-				ctx.strokeStyle = "rgba(255,224,138,0.45)";
-				ctx.lineWidth = 2;
-				ctx.beginPath();
-				ctx.arc(0, -28, 18, 0, Math.PI * 2);
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.arc(0, -28, 12, 0, Math.PI * 2);
-				ctx.fillStyle = top;
-				ctx.fill();
-				ctx.fillStyle = "#fff6d0";
-				ctx.beginPath();
-				ctx.arc(-4, -32, 4, 0, Math.PI * 2);
-				ctx.fill();
-				break;
-			case "meteor":
-				ctx.beginPath();
-				ctx.moveTo(-18, 4);
-				ctx.lineTo(-10, -16);
-				ctx.lineTo(2, -20);
-				ctx.lineTo(18, -6);
-				ctx.lineTo(12, 6);
-				ctx.lineTo(-4, 8);
-				ctx.closePath();
-				ctx.fillStyle = left;
-				ctx.fill();
-				ctx.beginPath();
-				ctx.moveTo(-6, -8);
-				ctx.lineTo(8, -14);
-				ctx.lineTo(14, -2);
-				ctx.lineTo(0, 2);
-				ctx.closePath();
-				ctx.fillStyle = right;
-				ctx.fill();
-				ctx.fillStyle = top;
-				ctx.fillRect(-4, -18, 8, 5);
-				break;
-			case "dish":
-				ctx.fillStyle = ink;
-				ctx.fillRect(-2, -16, 4, 18);
-				ctx.beginPath();
-				ctx.ellipse(0, -22, 18, 8, -.4, 0, Math.PI * 2);
-				ctx.fillStyle = left;
-				ctx.fill();
-				ctx.strokeStyle = top;
-				ctx.lineWidth = 2;
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.arc(6, -24, 3, 0, Math.PI * 2);
-				ctx.fillStyle = top;
-				ctx.fill();
-				break;
-			case "ring":
-				ctx.lineWidth = 7;
-				ctx.strokeStyle = left;
-				ctx.beginPath();
-				ctx.ellipse(0, -16, 18, 8, 0, 0, Math.PI * 2);
-				ctx.stroke();
-				ctx.strokeStyle = top;
-				ctx.beginPath();
-				ctx.ellipse(0, -20, 18, 8, 0, Math.PI, 0);
-				ctx.stroke();
-				ctx.fillStyle = ink;
-				ctx.fillRect(-2, -28, 4, 8);
-		}
-		ctx.restore();
-	}
-	function drawWings(ctx, cy) {
-		ctx.save();
-		ctx.translate(0, cy);
-		for (const side of [-1, 1]) {
-			ctx.beginPath();
-			ctx.moveTo(side * 210, -10);
-			ctx.lineTo(side * 360, -46);
-			ctx.lineTo(side * 360, 28);
-			ctx.lineTo(side * 210, 16);
-			ctx.closePath();
-			ctx.fillStyle = "#d7f4ff";
-			ctx.fill();
-			ctx.strokeStyle = "#2aa4ff";
-			ctx.lineWidth = 1.5;
-			ctx.stroke();
-			ctx.beginPath();
-			ctx.moveTo(side * 230, 2);
-			ctx.lineTo(side * 350, -8);
-			ctx.moveTo(side * 230, 8);
-			ctx.lineTo(side * 350, 6);
-			ctx.stroke();
-		}
-		ctx.restore();
-	}
-	function drawMast(ctx, sx, sy) {
-		ctx.fillStyle = "#d5deea";
-		ctx.fillRect(sx - 2, sy - 86, 4, 78);
-		ctx.beginPath();
-		ctx.moveTo(sx, sy - 98);
-		ctx.lineTo(sx + 22, sy - 78);
-		ctx.lineTo(sx - 6, sy - 78);
-		ctx.closePath();
-		ctx.fillStyle = "#e6b84a";
-		ctx.fill();
-		ctx.beginPath();
-		ctx.arc(sx, sy - 70, 7, 0, Math.PI * 2);
-		ctx.fillStyle = "#fff6c8";
-		ctx.fill();
-		ctx.strokeStyle = "#2aa4ff";
-		ctx.lineWidth = 3;
-		ctx.stroke();
-	}
-	function drawScene(ctx, scene) {
-		const { w, h, cells, rot, hover, tool, pops, particles, now, reduced } = scene;
-		drawSky(ctx, w, h, reduced ? 0 : now);
-		const { scale, cx, cy } = layout(w, h);
-		ctx.save();
-		ctx.translate(w / 2 + (scene.lookX ?? 0), h / 2 + (scene.lookY ?? 0));
-		ctx.scale(scale, scale);
-		ctx.translate(-cx, -cy);
-		ctx.beginPath();
-		ctx.ellipse(0, cy, 340, 148, 0, 0, Math.PI * 2);
-		ctx.save();
-		ctx.shadowColor = "rgba(255,196,64,0.95)";
-		ctx.shadowBlur = 32;
-		ctx.strokeStyle = "rgba(255,214,102,0.95)";
-		ctx.lineWidth = 8;
-		ctx.stroke();
-		ctx.restore();
-		ctx.beginPath();
-		ctx.ellipse(0, cy, 368, 164, 0, 0, Math.PI * 2);
-		ctx.strokeStyle = "rgba(255,255,255,0.95)";
-		ctx.lineWidth = 2;
-		ctx.stroke();
-		ctx.fillStyle = "rgba(255,255,255,0.28)";
-		ctx.beginPath();
-		ctx.ellipse(0, cy, 250, 100, 0, 0, Math.PI * 2);
-		ctx.fill();
-		drawWings(ctx, cy);
-		drawMast(ctx, project(0, 0).x, project(0, 0).y - 8);
-		for (let sum = 0; sum < 15; sum++) for (let vx = 0; vx < 8; vx++) {
-			const vy = sum - vx;
-			if (vy < 0 || vy >= 8) continue;
-			const index = fromViewX(vx, vy, rot) + fromViewY(vx, vy, rot) * 8;
-			const p = project(vx, vy);
-			const stack = cells[index] ?? [];
-			const isHover = hover === index;
-			drawFloor(ctx, p.x, p.y, isHover && stack.length === 0);
-			stack.forEach((id, level) => {
-				const pop = level === stack.length - 1 ? popScale(now, pops.get(index), reduced) : 1;
-				drawPiece(ctx, p.x, p.y - level * 40, id, 1, pop);
-			});
-			if (isHover && tool === "erase" && stack.length > 0) {
-				trace(ctx, silhouette(p.x, p.y, stack.length));
-				ctx.strokeStyle = "#ff8b9a";
-				ctx.lineWidth = 2;
-				ctx.stroke();
-			} else if (isHover && tool !== "erase" && stack.length < 2) drawPiece(ctx, p.x, p.y - stack.length * 40, tool, .5, 1);
-		}
-		for (const particle of particles) {
-			ctx.globalAlpha = Math.max(particle.life / particle.max, 0);
-			ctx.fillStyle = particle.color;
-			ctx.fillRect(particle.x, particle.y, 3.2, 3.2);
-		}
-		ctx.globalAlpha = 1;
-		ctx.restore();
-		ctx.font = "600 12px 'Noto Sans TC', 'WenQuanYi Zen Hei', sans-serif";
-		ctx.fillStyle = "#e7f4ff";
-		ctx.fillText("圖書館甲板  Library Deck", 16, h - 16);
-	}
-	function updateParticles(particles, dt) {
-		for (let i = particles.length - 1; i >= 0; i--) {
-			const p = particles[i];
-			p.life -= dt;
-			p.x += p.vx * dt;
-			p.y += p.vy * dt;
-			p.vy += 90 * dt;
-			if (p.life <= 0) particles.splice(i, 1);
-		}
-	}
-	function spawnBurst(particles, x, y, color) {
-		for (let i = 0; i < 10; i++) {
-			const a = Math.random() * Math.PI * 2;
-			const v = 30 + Math.random() * 50;
-			particles.push({
-				x,
-				y: y - 40,
-				vx: Math.cos(a) * v,
-				vy: Math.sin(a) * v - 40,
-				life: .45 + Math.random() * .25,
-				max: .7,
-				color
-			});
-		}
-		if (particles.length > 120) particles.splice(0, particles.length - 120);
+		return nearestBay(z);
 	}
 	//#endregion
 	//#region src/standalone.ts
-	const MIN_BLOCKS = 1;
-	const cellsRef = { current: stationGrid() };
-	const toolRef = { current: "shelf" };
-	const rotRef = { current: 0 };
-	const phaseRef = { current: "brief" };
-	const hoverRef = { current: null };
-	const pops = /* @__PURE__ */ new Map();
-	const particles = [];
-	const history = [];
-	let painting = false;
-	let muted = false;
-	let nameValue = "";
-	let thoughtValue = "";
-	let lookX = 0;
-	let lookY = 0;
+	const CLOUD_KEY = "tiangong-walk-opens";
+	const opened = /* @__PURE__ */ new Set();
+	let phase = "brief";
+	let z = 1.2;
+	let yaw = 0;
+	let vel = 0;
+	let near = null;
+	let reading = null;
 	let dragX = 0;
 	let dragY = 0;
-	let designs = [];
-	const size = {
-		w: 800,
-		h: 500
-	};
-	let audio = null;
+	let dragging = false;
+	function loadCloud() {
+		try {
+			return JSON.parse(localStorage.getItem(CLOUD_KEY) || "{}");
+		} catch {
+			return {};
+		}
+	}
 	const root = document.getElementById("app");
 	if (!root) throw new Error("missing app");
 	root.innerHTML = `
+<style>
+  #app { display:grid; height:100dvh; grid-template-rows:auto minmax(0,1fr) auto; }
+  #stage { min-height:0; }
+  #dock { display:grid; grid-template-columns:1fr 1.3fr 1fr; gap:8px; padding:8px; }
+  #dock button { min-height:58px; }
+  #done-list { margin:8px 0; padding-left:1.1em; }
+</style>
 <header>
   <p class="banner">圖書館 × 公民與社會發展 × 國民及公民教育<span>Library × Citizenship and Social Development × National and Civic Education</span></p>
   <div class="bar">
-  <div>
-    <p class="kicker">航向太空 A Voyage to Space</p>
-    <h1>帶一件上天宮<span>Bring one thing aboard</span></h1>
-  </div>
-  <button id="mute" class="icon" type="button" aria-label="關閉音效">音</button>
+    <div>
+      <p class="kicker">航向太空 · 走進天宮</p>
+      <h1>沿走廊看看<span>Walk the station</span></h1>
+    </div>
   </div>
 </header>
 <div id="stage">
   <canvas id="deck"></canvas>
-  <p id="toast" hidden></p>
   <div id="brief" class="veil">
     <div class="card">
-      <p class="kicker">看完展覽再建造 See the display first</p>
-      <h2>太空站要有什麼？<span>What does a station need?</span></h2>
-      <p>生活艙、實驗艙、溫室、通訊、醫療、運動、循環，也可以有圖書館。點一個飛上站，旁邊會寫哪本書提過它。最多三樣。<span class="en">Tap a module. A book title appears with it. Three at most.</span></p>
-      <button id="start" class="gold" type="button">選一件帶上去<span>Pick one</span></button>
+      <h2>走進太空站<span>Step inside</span></h2>
+      <p>拖動畫面往前走，左右看。靠近艙門就打開。每個艙是一項生存需要，也對上一本書。<span class="en">Drag to walk and look. Open a door when you are close.</span></p>
+      <button id="start" class="gold" type="button">開始行走<span>Start walking</span></button>
     </div>
   </div>
-  <div id="done" class="veil" hidden>
+  <div id="sheet" class="veil" hidden style="align-items:flex-end">
     <div class="card">
-      <p class="kicker">圖書館性格 Library type</p>
-      <h2 id="trait"></h2>
-      <p id="trait-en" class="en"></p>
-      <p id="trait-body"></p>
-      <p id="trait-body-en" class="en"></p>
-      <div id="done-cloud" class="cloud"></div>
-      <p id="trait-read" class="read"></p>
-      <p id="trait-read-en" class="en"></p>
-      <p class="kicker">想留給天宮什麼？<span>What should the library leave behind?</span></p>
-      <div id="thoughts"></div>
-      <input id="thought" maxlength="42" placeholder="也可以寫自己的一句 Your own line" />
-      <div class="row">
-        <input id="nick" maxlength="8" placeholder="暱稱 Nickname" />
-        <button id="save" class="gold" type="button">留下作品<span>Save</span></button>
-      </div>
-      <div class="row">
-        <button id="back" type="button">繼續修改<span>Keep editing</span></button>
-        <button id="reset" type="button">清空重來<span>Clear</span></button>
-      </div>
+      <p id="sheet-en" class="kicker"></p>
+      <h2 id="sheet-name"></h2>
+      <p id="sheet-hint"></p>
+      <p id="sheet-book" class="read"></p>
+      <button id="keep" class="gold" type="button">繼續走<span>Keep walking</span></button>
+    </div>
+  </div>
+  <div id="done" class="veil" hidden style="align-items:flex-end">
+    <div class="card">
+      <h2>你打開的艙<span>Doors you opened</span></h2>
+      <ul id="done-list"></ul>
+      <p class="kicker">大家打開過 Opens so far</p>
+      <div id="cloud" class="cloud"></div>
+      <button id="next" type="button">下一位<span>Next visitor</span></button>
     </div>
   </div>
 </div>
-<aside>
-  <div class="aside-head">
-    <h2>即時詞雲<span>Live word cloud</span></h2>
-    <p id="count">書架 0<span>Shelves · modules 0/6</span></p>
-  </div>
-  <div id="cloud" class="cloud"><p class="muted">放下模組，大家最想要的會變大。<span class="en">Place modules. Favorites grow larger.</span></p></div>
-  <h3>這部裝置的作品 Saved on this iPad</h3>
-  <div id="saved" class="muted">完成後可留下，給下一組參考。<span class="en">Save a design for the next group.</span></div>
-</aside>
 <footer>
-  <div class="tools">
-    <button id="rot" type="button">旋轉<span>Rotate</span></button>
-    <button id="undo" type="button">復原<span>Undo</span></button>
-    <button id="clear" type="button">清空<span>Clear</span></button>
-    <button id="tilt" type="button">傾斜<span>Tilt</span></button>
-    <p id="hint" class="muted">書架 Shelf<span>實體藏書 / Real books</span></p>
-    <button id="finish" class="gold" type="button">帶好了<span>Done</span></button>
+  <div id="dock">
+    <button id="back" type="button">向後<span>Back</span></button>
+    <button id="open" class="gold" type="button">靠近艙門<span>Walk closer</span></button>
+    <button id="forward" type="button">向前<span>Forward</span></button>
   </div>
-  <div id="palette"></div>
-  <div id="confirm" hidden>
-    <p>清空甲板上的全部模組？<span class="en">Clear every module on the deck?</span></p>
-    <button id="no" type="button">取消<span>Cancel</span></button>
-    <button id="yes" class="danger" type="button">清空<span>Clear</span></button>
-  </div>
+  <button id="finish" type="button" hidden style="margin:0 8px 8px">看完這段<span>Finish this walk</span></button>
 </footer>`;
 	const canvas = document.getElementById("deck");
 	const stage = document.getElementById("stage");
 	const ctx = canvas.getContext("2d");
-	if (!ctx) throw new Error("canvas");
-	function tone(freq) {
-		if (muted) return;
-		const AC = window.AudioContext || window.webkitAudioContext;
-		if (!AC) return;
-		if (!audio) audio = new AC();
-		if (audio.state === "suspended") audio.resume();
-		const osc = audio.createOscillator();
-		const gain = audio.createGain();
-		osc.type = "triangle";
-		osc.frequency.value = freq;
-		gain.gain.setValueAtTime(.05, audio.currentTime);
-		gain.gain.exponentialRampToValueAtTime(.001, audio.currentTime + .12);
-		osc.connect(gain);
-		gain.connect(audio.destination);
-		osc.start();
-		osc.stop(audio.currentTime + .13);
-	}
-	function toast(text) {
-		const el = document.getElementById("toast");
-		el.hidden = false;
-		el.textContent = text;
-		window.setTimeout(() => {
-			el.hidden = true;
-		}, 2600);
-	}
-	function sizeClass(count, max) {
-		const ratio = max === 0 ? 0 : count / max;
-		if (ratio > .8) return "xl goldt";
-		if (ratio > .55) return "lg";
-		if (ratio > .3) return "md ice";
-		return "sm";
-	}
-	function renderCloud(target) {
-		const counts = guestCounts(cellsRef.current);
-		const ranked = BRING_IDS.map((id) => BLOCK_MAP[id]).filter((block) => counts[block.id] > 0).sort((a, b) => counts[b.id] - counts[a.id]);
-		if (!ranked.length) {
-			target.innerHTML = `<p class="muted">放下模組，大家最想要的會變大。<span class="en">Place modules. Favorites grow larger.</span></p>`;
-			return;
-		}
-		const max = counts[ranked[0].id];
-		target.innerHTML = ranked.map((block) => `<span class="${sizeClass(counts[block.id], max)}">${block.name} <b>${block.en}</b><i>${counts[block.id]}</i></span>`).join("");
-	}
-	function renderHud() {
-		guestCounts(cellsRef.current);
-		const placed = GUEST_SLOTS.reduce((sum, index) => sum + (cellsRef.current[index]?.length ?? 0), 0);
-		const count = document.getElementById("count");
-		if (count) count.innerHTML = `已帶上 ${placed}<span>Aboard · ${placed}/3</span>`;
-		const cloud = document.getElementById("cloud");
-		if (cloud) renderCloud(cloud);
-		const hint = document.getElementById("hint");
-		if (hint) hint.innerHTML = toolRef.current === "erase" ? "拆除模式 Erase" : `${BLOCK_MAP[toolRef.current].name} ${BLOCK_MAP[toolRef.current].en}<span>${BLOCK_MAP[toolRef.current].hint} / ${BLOCK_MAP[toolRef.current].hintEn}</span>`;
-		document.querySelectorAll("#palette button").forEach((button) => {
-			button.classList.toggle("on", button.dataset.id === toolRef.current);
-		});
-		document.getElementById("erase")?.classList.toggle("on", toolRef.current === "erase");
-	}
-	function renderSaved() {
-		const box = document.getElementById("saved");
-		if (!box) return;
-		if (!designs.length) {
-			box.className = "muted";
-			box.innerHTML = "完成後可留下，給下一組參考。<span class=\"en\">Save a design for the next group.</span>";
-			return;
-		}
-		box.className = "";
-		box.innerHTML = designs.map((design, index) => `<button type="button" data-load="${index}"><b>${design.name}</b><span>${design.trait}</span></button>`).join("");
-	}
-	function setPhase(phase) {
-		phaseRef.current = phase;
-		document.getElementById("brief").hidden = phase !== "brief";
-		const done = document.getElementById("done");
+	const brief = document.getElementById("brief");
+	const sheet = document.getElementById("sheet");
+	const done = document.getElementById("done");
+	const openBtn = document.getElementById("open");
+	function show() {
+		brief.hidden = phase !== "brief";
+		sheet.hidden = !reading;
 		done.hidden = phase !== "done";
+		openBtn.disabled = !near || phase !== "walk";
+		openBtn.innerHTML = near ? `打開${near.name}<span>Open</span>` : "靠近艙門<span>Walk closer</span>";
+		const finish = document.getElementById("finish");
+		finish.hidden = opened.size === 0 || phase !== "walk";
+		if (reading) {
+			document.getElementById("sheet-en").textContent = reading.en;
+			document.getElementById("sheet-name").textContent = reading.name;
+			document.getElementById("sheet-hint").innerHTML = `${reading.hint}<span class="en">${reading.hintEn}</span>`;
+			document.getElementById("sheet-book").innerHTML = `${reading.book}<span class="en">${reading.bookEn}</span>`;
+		}
 		if (phase === "done") {
-			const trait = analyze(guestCounts(cellsRef.current));
-			document.getElementById("trait").textContent = trait.title;
-			document.getElementById("trait-en").textContent = trait.titleEn;
-			document.getElementById("trait-body").textContent = trait.body;
-			document.getElementById("trait-body-en").textContent = trait.bodyEn;
-			const counts = guestCounts(cellsRef.current);
-			const books = BRING_IDS.filter((id) => counts[id] > 0 && READS[id]).map((id) => `${BLOCK_MAP[id].name}：${READS[id].book}`).join(" ");
-			document.getElementById("trait-read").textContent = books || trait.read;
-			document.getElementById("trait-read-en").textContent = trait.readEn;
-			renderCloud(document.getElementById("done-cloud"));
+			document.getElementById("done-list").innerHTML = [...opened].map((id) => {
+				const bay = BAYS.find((item) => item.id === id);
+				return bay ? `<li>${bay.name}：${bay.book}</li>` : "";
+			}).join("");
+			const cloud = loadCloud();
+			const ranked = Object.entries(cloud).sort((a, b) => b[1] - a[1]);
+			const max = ranked[0]?.[1] ?? 1;
+			document.getElementById("cloud").innerHTML = ranked.map(([id, count]) => {
+				const bay = BAYS.find((item) => item.id === id);
+				return `<span class="${count === max ? "xl" : "sm"}">${bay?.name ?? id} <i>${count}</i></span>`;
+			}).join("");
 		}
 	}
-	function clearGrid() {
-		history.push(cloneGrid(cellsRef.current));
-		cellsRef.current = stationGrid();
-		setPhase("build");
-		document.getElementById("confirm").hidden = true;
-		renderHud();
+	function remember(id) {
+		const cloud = loadCloud();
+		cloud[id] = (cloud[id] || 0) + 1;
+		localStorage.setItem(CLOUD_KEY, JSON.stringify(cloud));
 	}
-	const palette = document.getElementById("palette");
-	function icon(block) {
-		const { shape, top, left, right } = block;
-		if (shape === "dome") return `<path d="M10 34 Q32 4 54 34 Q32 42 10 34" fill="${top}"/>`;
-		if (shape === "arch" || shape === "bridge") return `<path d="M12 40 V22 Q32 2 52 22 V40" fill="none" stroke="${top}" stroke-width="6"/>`;
-		if (shape === "crystal") return `<polygon points="32,4 50,28 32,44 14,28" fill="${top}"/>`;
-		if (shape === "tree") return `<rect x="29" y="28" width="6" height="14" fill="${left}"/><circle cx="32" cy="22" r="12" fill="${top}"/>`;
-		if (shape === "orb" || shape === "lantern") return `<circle cx="32" cy="22" r="12" fill="${top}"/>`;
-		if (shape === "hammock") return `<path d="M10 16 V40 M54 16 V40 M12 20 Q32 42 52 20" fill="none" stroke="${top}" stroke-width="4"/>`;
-		if (shape === "scope" || shape === "dish") return `<line x1="14" y1="36" x2="46" y2="14" stroke="${left}" stroke-width="6"/><circle cx="48" cy="12" r="6" fill="${top}"/>`;
-		if (shape === "pillar") return `<rect x="24" y="8" width="16" height="32" rx="8" fill="${top}"/>`;
-		if (shape === "ring") return `<ellipse cx="32" cy="24" rx="16" ry="8" fill="none" stroke="${top}" stroke-width="5"/>`;
-		if (shape === "meteor") return `<polygon points="8,36 18,14 36,10 56,24 48,40 16,42" fill="${left}"/>`;
-		if (shape === "slab" || shape === "stage") return `<polygon points="32,16 56,28 32,40 8,28" fill="${top}"/>`;
-		if (shape === "chair") return `<rect x="18" y="10" width="8" height="18" fill="${right}"/><rect x="16" y="26" width="32" height="8" fill="${top}"/>`;
-		if (shape === "rack") return `<polygon points="8,34 54,34 54,10 8,24" fill="${left}"/>`;
-		return `<polygon points="32,6 56,18 32,30 8,18" fill="${top}"/><polygon points="8,18 32,30 32,42 8,30" fill="${left}"/><polygon points="32,30 56,18 56,30 32,42" fill="${right}"/>`;
-	}
-	palette.innerHTML = BRING_IDS.map((id) => {
-		const block = BLOCK_MAP[id];
-		return `<button type="button" data-id="${block.id}">
-    <svg viewBox="0 0 64 48" aria-hidden="true">${icon(block)}</svg>
-    <span>${block.name}</span>
-    <b>${block.en}</b>
-  </button>`;
-	}).join("");
-	function dropBring(id) {
-		if (phaseRef.current === "brief") setPhase("build");
-		const slot = nextGuestSlot(cellsRef.current);
-		if (slot == null) {
-			toast("三樣就夠了。 Three is enough.");
-			tone(160);
-			return;
-		}
-		history.push(cloneGrid(cellsRef.current));
-		const copy = cloneGrid(cellsRef.current);
-		copy[slot] = [id];
-		cellsRef.current = copy;
-		toolRef.current = id;
-		pops.set(slot, performance.now());
-		const spot = worldOf(slot, rotRef.current);
-		spawnBurst(particles, spot.x, spot.y - 40, BLOCK_MAP[id].top);
-		tone(640);
-		const read = READS[id];
-		toast(`${BLOCK_MAP[id].name}飛上空間站了。${read ? read.book : ""}`);
-		renderHud();
-	}
-	palette.addEventListener("click", (event) => {
-		const button = event.target.closest("button");
-		if (!button?.dataset.id) return;
-		dropBring(button.dataset.id);
-	});
 	document.getElementById("start")?.addEventListener("click", () => {
-		setPhase("build");
-		tone(640);
+		phase = "walk";
+		show();
 	});
-	document.getElementById("mute")?.addEventListener("click", () => {
-		muted = !muted;
-		const button = document.getElementById("mute");
-		if (button) {
-			button.textContent = muted ? "靜" : "音";
-			button.setAttribute("aria-label", muted ? "開啟音效" : "關閉音效");
-		}
+	document.getElementById("keep")?.addEventListener("click", () => {
+		reading = null;
+		show();
 	});
-	document.getElementById("rot")?.addEventListener("click", () => {
-		rotRef.current = rotRef.current + 1 & 3;
-	});
-	document.getElementById("undo")?.addEventListener("click", () => {
-		const prev = history.pop();
-		if (!prev) return;
-		cellsRef.current = prev;
-		setPhase("build");
-		renderHud();
-	});
-	document.getElementById("clear")?.addEventListener("click", () => {
-		document.getElementById("confirm").hidden = false;
-	});
-	document.getElementById("no")?.addEventListener("click", () => {
-		document.getElementById("confirm").hidden = true;
-	});
-	document.getElementById("yes")?.addEventListener("click", clearGrid);
-	document.getElementById("tilt")?.addEventListener("click", () => {
-		const orientation = DeviceOrientationEvent;
-		const listen = () => {
-			window.addEventListener("deviceorientation", (event) => {
-				lookX = Math.max(-70, Math.min(70, (event.gamma ?? 0) * .7));
-				lookY = Math.max(-46, Math.min(46, ((event.beta ?? 0) - 40) * .35));
-			});
-		};
-		if (orientation.requestPermission) {
-			orientation.requestPermission().then((state) => {
-				if (state === "granted") listen();
-			});
-			return;
-		}
-		listen();
+	document.getElementById("open")?.addEventListener("click", () => {
+		if (!near) return;
+		opened.add(near.id);
+		reading = near;
+		remember(near.id);
+		show();
 	});
 	document.getElementById("finish")?.addEventListener("click", () => {
-		if (GUEST_SLOTS.reduce((sum, index) => sum + (cellsRef.current[index]?.length ?? 0), 0) < MIN_BLOCKS) {
-			toast("先帶一樣東西上去。 Bring one thing aboard.");
-			tone(160);
-			return;
-		}
-		setPhase("done");
-		tone(660);
+		if (!opened.size) return;
+		phase = "done";
+		reading = null;
+		show();
 	});
-	document.getElementById("back")?.addEventListener("click", () => setPhase("build"));
-	document.getElementById("reset")?.addEventListener("click", clearGrid);
-	document.getElementById("nick")?.addEventListener("input", (event) => {
-		nameValue = event.target.value;
+	document.getElementById("next")?.addEventListener("click", () => {
+		opened.clear();
+		reading = null;
+		z = 1.2;
+		yaw = 0;
+		phase = "walk";
+		show();
 	});
-	document.getElementById("thought")?.addEventListener("input", (event) => {
-		thoughtValue = event.target.value;
-	});
-	const thoughts = document.getElementById("thoughts");
-	if (thoughts) {
-		thoughts.innerHTML = THOUGHTS.map((item, index) => `<button type="button" data-thought="${index}">${item.zh}<span>${item.en}</span></button>`).join("");
-		thoughts.addEventListener("click", (event) => {
-			const button = event.target.closest("button");
-			if (!button?.dataset.thought) return;
-			const item = THOUGHTS[Number(button.dataset.thought)];
-			if (!item) return;
-			thoughtValue = item.zh;
-			const input = document.getElementById("thought");
-			if (input) input.value = item.zh;
-		});
+	function hold(id, speed) {
+		const button = document.getElementById(id);
+		const down = () => {
+			vel = speed;
+		};
+		const up = () => {
+			vel = 0;
+		};
+		button?.addEventListener("pointerdown", down);
+		button?.addEventListener("pointerup", up);
+		button?.addEventListener("pointerleave", up);
+		button?.addEventListener("pointercancel", up);
 	}
-	document.getElementById("save")?.addEventListener("click", () => {
-		const trait = analyze(guestCounts(cellsRef.current));
-		designs = [{
-			id: `${Date.now()}`,
-			name: nameValue.trim().slice(0, 8) || "未命名",
-			cells: cloneGrid(cellsRef.current),
-			trait: trait.title,
-			thought: thoughtValue.trim().slice(0, 42),
-			at: Date.now()
-		}, ...designs].slice(0, 12);
-		storeDesigns(designs);
-		renderSaved();
-		toast("已留在這部裝置。 Saved on this iPad.");
-		tone(740);
-	});
-	document.getElementById("saved")?.addEventListener("click", (event) => {
-		const button = event.target.closest("button");
-		if (!button?.dataset.load) return;
-		const design = designs[Number(button.dataset.load)];
-		if (!design) return;
-		history.push(cloneGrid(cellsRef.current));
-		cellsRef.current = cloneGrid(design.cells);
-		setPhase("build");
-		renderHud();
-		toast(`已打開「${design.name}」`);
-	});
+	hold("forward", 3.4);
+	hold("back", -3.4);
 	canvas.addEventListener("pointerdown", (event) => {
-		if (phaseRef.current !== "build") return;
+		if (phase !== "walk" || reading) return;
 		canvas.setPointerCapture(event.pointerId);
-		painting = true;
+		dragging = true;
 		dragX = event.clientX;
 		dragY = event.clientY;
 	});
 	canvas.addEventListener("pointermove", (event) => {
-		if (!painting) return;
-		lookX = Math.max(-90, Math.min(90, lookX + event.clientX - dragX));
-		lookY = Math.max(-70, Math.min(70, lookY + event.clientY - dragY));
+		if (!dragging) return;
+		yaw = Math.max(-.7, Math.min(.7, yaw + (event.clientX - dragX) * .004));
+		z = clampWalk(z - (event.clientY - dragY) * .03);
 		dragX = event.clientX;
 		dragY = event.clientY;
 	});
-	function endStroke() {
-		painting = false;
-	}
-	canvas.addEventListener("pointerup", endStroke);
-	canvas.addEventListener("pointercancel", endStroke);
-	canvas.addEventListener("contextmenu", (event) => event.preventDefault());
+	const stopDrag = () => {
+		dragging = false;
+	};
+	canvas.addEventListener("pointerup", stopDrag);
+	canvas.addEventListener("pointercancel", stopDrag);
 	function resize() {
 		const rect = stage.getBoundingClientRect();
 		const dpr = Math.min(window.devicePixelRatio || 1, 2);
-		size.w = Math.max(1, rect.width);
-		size.h = Math.max(1, rect.height);
-		canvas.width = Math.floor(size.w * dpr);
-		canvas.height = Math.floor(size.h * dpr);
-		canvas.style.width = `${size.w}px`;
-		canvas.style.height = `${size.h}px`;
+		canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+		canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+		canvas.style.width = `${rect.width}px`;
+		canvas.style.height = `${rect.height}px`;
 	}
 	resize();
 	new ResizeObserver(resize).observe(stage);
@@ -1966,29 +1142,19 @@
 	function loop(now) {
 		const dt = Math.min((now - last) / 1e3, .05);
 		last = now;
-		updateParticles(particles, dt);
-		const dpr = canvas.width / size.w;
+		z = clampWalk(z + vel * dt);
+		const rect = canvas.getBoundingClientRect();
+		const dpr = canvas.width / Math.max(1, rect.width);
 		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-		drawScene(ctx, {
-			w: size.w,
-			h: size.h,
-			cells: cellsRef.current,
-			rot: rotRef.current,
-			hover: phaseRef.current === "build" ? hoverRef.current : null,
-			tool: toolRef.current,
-			pops,
-			particles,
-			now,
-			reduced: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-			lookX,
-			lookY
-		});
+		const bay = drawCorridor(ctx, rect.width, rect.height, z, yaw, opened, now);
+		if (bay?.id !== near?.id) {
+			near = bay;
+			if (!reading && phase === "walk") show();
+		}
 		requestAnimationFrame(loop);
 	}
+	show();
 	requestAnimationFrame(loop);
-	designs = loadDesigns();
-	renderSaved();
-	renderHud();
 	//#endregion
 })();
 
